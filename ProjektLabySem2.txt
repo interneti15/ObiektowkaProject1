@@ -1,0 +1,31 @@
+Projekt na Programowanie Obiektowe Laboratorium Semestr 2:
+
+Co do samego projektu mam 2 pomysły, jednak obydwa są na tyle do siebie podobne, że uznałem że je zestawie razem.
+Pierwszy z nich to tak zwana symulacja boidów (2D), które za pomocą algorytmów grupowałyby się i unikały przeszkód. Można powiedzieć, że jest to symulacja lotu ptaków,
+gdyż same boidy będą zachowywać sie podobnie do ptaków.
+	Sam projekt zawierałby:
+		- Panel pozwalający stawiać na ekranie boidy, jak również przeszkody (zwykłe czerwone kółka, lecz możnaby dodać więcej kształtów) które owe boidy mają unikać.
+		- Ekran na którym odbędzie się symulacja. Dodałbym do samego ekranu zasadę, że jeśli obiekt przejdzie przez granicę ekranu z jednej strony to wyjdzie z drugiej
+		  strony. Znaczy to, że sam ekran nie ma granic ekranu które boidy miałyby unikać, lecz zawsze można zrobić tą granicę ręcznie przy pomocy wcześniej wspomnianych
+		  przeszkód. (możnaby dodać funkcje włączania i wyłączania granic ekranu jako przeszkody, jeśli będzie trzeba)
+		Zachowanie boidów:
+			Ruchy boidów byłyby definiowane poprzez kilka parametrów: losowość (w małym stopniu, grupowanie z innymi boidami, unikanie przeszkód, dalej zachowując 				podobny kierunek lotu. Dzięki temu możnaby stworzyć grupę boidów, które latałyby po ekranie unikając przeszkód w formacji podobnej do ptasiej.
+			Parametry można by było włączać i wyłączać.
+			Możliwe by też było zaimplementowanie możliwości wyznaczenia punktów docelowych boidom, lecz uważam że tworzenie formacji poprzez grupowanie,
+			losowość i unikanie przeszkód za lepszą wizualizacje formacji ptaków.
+
+Drugi pomysł: Symulacja opierająca się na stawianiu jednostek o różnych kolorach i właściwościach, które w zależności od drużyny (koloru) walczyłyby ze sobą, dopóki pozostałe
+drużyny nie zostaną wyeliminowane. 
+	Projekt zawierałby:
+		- Panel pozwalający wybrać kolor, typ jednostek, ilość życia, siłę i prędkość ataku jednostki, które możnaby stawiać na ekranie. Po postawieniu nie robiły by one 		  nic, gdyż trzeba będzie nacisnąć przycisk do rozpoczęcia symulacji. 
+		- Ekran nie potrzebowałby granic, gdyż jednostki przeciwnych drużyn automatycznie ruszałyby w kierunku przeciwnika.
+		- Walka jednostek wyglądała by tak:
+			- postawione jednostki byłyby kulkami z liczbą na sobie reprezentującą jej ilość życia. Jednostki poruszałyby się w kierunku przeciwnych jednostek i
+			  gdy znajdą się w zasięgu ataku atakowałyby przeciwnika zabierając ilość życia zależną od siły i prędkości ataku.
+			  Podstawowe typy jednostek o jakich myśle, to taka z bliskim zasięgiem (muszą dotykać przeciwnika), jak i taka z atakiem dystansowym (problemem może być 			  tu wizualizacja ataku zasięgowego. Możnaby później dodać nowe jednostki, takie jak jednostka atakująca kilka celi naraz itp..
+
+Oba pomysły wywodzą się z tej samej bazy (symulacja pozwalająca stawiać obiekty z przypisanymi zachowaniami z panelu), więc w przypadku, gdyby chcielibyśmy jako grupa zrobić
+jednak coś innego, byłaby taka możliwość (oczywiście jest o wiele więcej możliwych projektów do stworzenia z tej bazy). Dodatkowo same podane przeze mnie projekty
+mają wiele możliwości dodawanie przeróżnych rzeczy, czy to będą różne tryby formacji boidów, nowe przeszkody, czy nowe jednostki czy animacje jednostek. Bardzo cenie sobie
+swobodne projekty, które można dowolnie rozwijać.
+	
