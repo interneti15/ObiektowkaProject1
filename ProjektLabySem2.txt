@@ -29,7 +29,7 @@ jednak coś innego, byłaby taka możliwość (oczywiście jest o wiele więcej 
 mają wiele możliwości dodawanie przeróżnych rzeczy, czy to będą różne tryby formacji boidów, nowe przeszkody, czy nowe jednostki czy animacje jednostek. Bardzo cenie sobie
 swobodne projekty, które można dowolnie rozwijać.
 	
-Trzeci pomysł zakłada symulację ruchu samochodowego w mieście, która wpisuje się w koncepcję projektów opartych na panelu umożliwiającym stawianie obiektów z przypisanymi zachowaniami. 
+Trzeci pomysł zakłada symulację ruchu samochodowego w mieście, miałny panel umożliwiający stawianie obiektów z przypisanymi zachowaniami. 
 
 Projekt obejmowałby:
 - Mapę miasta z siatką 2D kratek, gdzie na początku definiowalibyśmy, czy dana klatka to droga, budynek czy pusta przestrzeń. Następnie wybieralibyśmy budynki, które samochody miałyby odwiedzać. 
