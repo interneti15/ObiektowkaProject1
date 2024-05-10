@@ -1,0 +1,11 @@
+abstract class SimulationObject {
+    protected Coordinates cords;
+    int ID;
+    static int objectCount = 0;
+    SimulationObject(){
+        this.ID = objectCount;
+        objectCount++;
+    }
+    //protected |--| look <- tu klasa z wygladem sprita
+    public abstract void doTick();
+}
