@@ -1,2 +1,3 @@
-public class UnitMelee extends Unit{
+abstract class UnitMelee extends Unit{
+    protected int damage;
 }

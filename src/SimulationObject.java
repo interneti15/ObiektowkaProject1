@@ -7,5 +7,8 @@ abstract class SimulationObject {
         objectCount++;
     }
     //protected |--| look <- tu klasa z wygladem sprita
-    public abstract void doTick();
+    public abstract void walkTick();
+    public abstract void attackTick();
+    public abstract void afterTick();
+
 }

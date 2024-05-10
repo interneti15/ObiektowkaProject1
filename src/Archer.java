@@ -1,12 +1,14 @@
 public class Archer extends UnitRange{
-    //private Projectile projectile = Arrow;
+
     Archer(Coordinates c1){
+        super();
         this.health = 100;
-        this.range = 1;
+        this.range = 10;
         this.tickPerAttack = 20;
         this.walkSpeed = 1;
-
-
+        this.team = "any";
+        this.type = "archer";
+        this.projectile = new Arrow();
     }
 }
 
