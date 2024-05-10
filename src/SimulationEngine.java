@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 public class SimulationEngine {
 
-    protected ArrayList<SimulationObject> ObjectsToTick;
+    private ArrayList<SimulationObject> ObjectsToTick = new ArrayList<SimulationObject>();
     public static ArrayList<SimplifiedSimulationObject> ObjectCoordinatesList = new ArrayList<SimplifiedSimulationObject>();
+    public static int tickCount = 0;
 
     SimulationEngine(){
         ObjectsToTick = new ArrayList<SimulationObject>();
@@ -12,6 +13,9 @@ public class SimulationEngine {
         ObjectCoordinatesList = new ArrayList<SimplifiedSimulationObject>(); // Refreshing this whole list with object coordinates
         for (SimulationObject object : ObjectsToTick) {
             ObjectCoordinatesList.add(new SimplifiedSimulationObject(object.cords, object.ID));
+            if (object.type == SimulationObjectType.KNIGHT){
+                Knight asd = (Knight) object;
+            }
         }
 
         for (SimulationObject object : ObjectsToTick) {
@@ -24,6 +28,6 @@ public class SimulationEngine {
             object.afterTick();
         }
 
-
+        tickCount++;
     }
 }
