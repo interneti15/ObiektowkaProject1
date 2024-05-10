@@ -1,6 +1,6 @@
 abstract class SimulationObject {
     protected Coordinates cords;
-    int ID;
+    protected int ID;
     static int objectCount = 0;
     SimulationObject(){
         this.ID = objectCount;
