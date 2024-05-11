@@ -3,8 +3,8 @@ import java.util.ArrayList;
 enum SimulationObjectType{//Used for object identification
     SIMULATION_OBJECT,
     UNIT,
-    UNITMELEE,
-    UNITRANGE,
+    UNIT_MELEE,
+    UNIT_RANGE,
     PROJECTILE,
     ARCHER,
     ARROW,
