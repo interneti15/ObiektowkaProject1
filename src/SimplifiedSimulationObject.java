@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class SimplifiedSimulationObject //Just ID and Coordinates, updated in engine tick
+public class SimplifiedSimulationObject //Simplified SimulationObject used for managing interactions counting dmg etc, updated in engine tick
 {
     private Coordinates coordinates;
     private int ID;
