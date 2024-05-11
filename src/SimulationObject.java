@@ -13,7 +13,7 @@ enum SimulationObjectType{//Used for object identification
 abstract class SimulationObject {
     protected Coordinates cords;
     protected int ID;
-    static int objectCount = 0;
+    private static int objectCount = 0;
     protected ArrayList<SimulationObjectType> types = new ArrayList<>();//This will be used to indentify methods and fields of class
 
     SimulationObject(){

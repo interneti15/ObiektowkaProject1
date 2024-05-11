@@ -6,7 +6,7 @@ public class SimulationEngine {
     public static int tickCount = 0;
 
     SimulationEngine(){
-        ObjectsToTick = new ArrayList<SimulationObject>();
+
     }
 
     void tick() {//1 game tick consist of updateing list with coords of objects, then we to walk tick designed for changing of coords, then attack tick for atacking and after tick for any other things
