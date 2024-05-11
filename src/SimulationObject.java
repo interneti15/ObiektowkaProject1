@@ -1,24 +1,38 @@
-enum SimulationObjectType{
+import java.util.ArrayList;
+
+enum SimulationObjectType{//Used for object identification
+    SIMULATION_OBJECT,
     UNIT,
     UNITMELEE,
+    UNITRANGE,
+    PROJECTILE,
+    ARCHER,
+    ARROW,
     KNIGHT
 }
 abstract class SimulationObject {
     protected Coordinates cords;
     protected int ID;
     static int objectCount = 0;
-    protected Boolean isUnit;
+    protected ArrayList<SimulationObjectType> types = new ArrayList<>();//This will be used to indentify methods and fields of class
 
-    protected SimulationObjectType type;
-
-    SimulationObject(SimulationObjectType type){
+    SimulationObject(){
+        this.types.add(SimulationObjectType.SIMULATION_OBJECT);
         this.ID = objectCount;
         objectCount++;
-        this.type = type;
     }
     //protected |--| look <- tu klasa z wygladem sprita
     public abstract void walkTick();
     public abstract void attackTick();
     public abstract void afterTick();
+
+    public boolean isThisType(SimulationObjectType desiredType){
+        for(SimulationObjectType type : types){
+            if (type == desiredType){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

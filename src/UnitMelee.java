@@ -1,6 +1,7 @@
 abstract class UnitMelee extends Unit{
     protected int damage;
-    UnitMelee(SimulationObjectType type){
-        super(type);
+    UnitMelee(){
+        super();
+        this.types.add(SimulationObjectType.UNITMELEE);
     }
 }

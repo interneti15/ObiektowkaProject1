@@ -7,9 +7,9 @@ abstract class Unit extends SimulationObject
     protected String team;//Team to which the unit belongs
 
 
-    public Unit(SimulationObjectType type) {
-        super(type);
-        this.isUnit = true;
+    public Unit() {
+        super();
+        this.types.add(SimulationObjectType.UNIT);
     }
     //protected String type;//more like name of the unit  archer,knight
 
