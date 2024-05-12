@@ -11,7 +11,7 @@ enum SimulationObjectType{//Used for object identification
     KNIGHT
 }
 abstract class SimulationObject {
-    protected Coordinates cords;
+    protected Coordinates coordinates;
     protected int ID;
     private static int objectCount = 0;
     protected ArrayList<SimulationObjectType> types = new ArrayList<>();//This will be used to indentify methods and fields of class

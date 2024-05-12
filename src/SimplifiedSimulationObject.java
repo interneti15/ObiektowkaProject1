@@ -8,19 +8,18 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     private int dmgTaken = 0; // We will use this to count damage that given object has taken
     private String team;
 
-    SimplifiedSimulationObject(Coordinates coordinates, int id, ArrayList<SimulationObjectType> types, String team){
-        this.coordinates = coordinates;
-        this.ID = id;
-        this.types = types;
-        this.team = team;
-    }
-    SimplifiedSimulationObject(Coordinates coordinates, int id, ArrayList<SimulationObjectType> types){
-        this.coordinates = coordinates;
-        this.ID = id;
-        this.types = types;
-        this.team = "system";
-    }
+    SimplifiedSimulationObject(SimulationObject object){
+        this.coordinates = object.coordinates;
+        this.ID = object.ID;
+        this.types = object.types;
 
+        if (object.isThisType(SimulationObjectType.UNIT)){
+            this.team = ((Unit)object).team;
+        }
+        else{
+            this.team = "system";
+        }
+    }
 
     public int getID(){
         return this.ID;
@@ -30,6 +29,10 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     }
     public ArrayList<SimulationObjectType> getTypes() {
         return this.types;
+    }
+
+    public String getTeam() {
+        return team;
     }
 
     public boolean isThisType(SimulationObjectType desiredType){
