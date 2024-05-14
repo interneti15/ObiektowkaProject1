@@ -8,7 +8,7 @@ public class Knight extends UnitMelee{
         this.range = 1;
         this.damage = 10;
         this.tickPerAttack = 20;
-        this.walkSpeed = 1;
+        this.maxStepDistance = 1;
         this.team = "any";
 
     }

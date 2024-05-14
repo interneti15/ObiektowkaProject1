@@ -12,6 +12,7 @@ enum SimulationObjectType{//Used for object identification
 }
 abstract class SimulationObject {
     protected Coordinates coordinates;
+    protected Coordinates declaredNextCoordinates;// This will be used to give every unit the same opportunity to move
     protected int ID;
     private static int objectCount = 0;
     protected ArrayList<SimulationObjectType> types = new ArrayList<>();//This will be used to indentify methods and fields of class
@@ -22,6 +23,7 @@ abstract class SimulationObject {
         objectCount++;
     }
     //protected |--| look <- tu klasa z wygladem sprita
+    public abstract void walkTickDeclareNext();
     public abstract void walkTick();
     public abstract void attackTick();
     public abstract void afterTick();

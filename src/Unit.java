@@ -1,8 +1,10 @@
+
+
 abstract class Unit extends SimulationObject
 {
     protected double health;//health
     protected double range;//range
-    protected double walkSpeed;//max distance able to move per tick
+    protected double maxStepDistance;//max distance able to move per tick
     protected double tickPerAttack;//ticks between atack opportuniteis
     protected String team;//Team to which the unit belongs
 
@@ -10,11 +12,13 @@ abstract class Unit extends SimulationObject
     public Unit() {
         super();
         this.types.add(SimulationObjectType.UNIT);
+
+        this.declaredNextCoordinates = this.coordinates;//This is important in case the object were to not move
     }
     //protected String type;//more like name of the unit  archer,knight
 
     @Override
-    public void walkTick() {
+    public void walkTickDeclareNext() {
 
         //First we search for closest enemy, to be exact to its position in SimplifiedList
         int closestEnemyIndex = findClosestEnemyIndex();
@@ -24,6 +28,36 @@ abstract class Unit extends SimulationObject
             return;
         }
 
+        // We will treat the var below as a vector describing relation between this unit and the enemy
+        Coordinates deltaCoordinates = new Coordinates(SimulationEngine.SimpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().x - this.coordinates.x, SimulationEngine.SimpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().y - this.coordinates.y);
+        double vectorLenght = Math.sqrt((Math.pow(deltaCoordinates.x,2) + Math.pow(deltaCoordinates.y,2)));
+
+        if (vectorLenght < this.range) {// We don't move if we are already in range
+            return;
+        }
+
+        //We want so move only as far as to be in range
+        double desiredMovementStep = vectorLenght - this.range;
+
+        // but we need to limit this to maxStepDistance
+        if (desiredMovementStep > this.maxStepDistance){
+            desiredMovementStep = this.maxStepDistance;
+        }
+
+        //We will divide the deltaCordinatex.x and .y by this number to lower the step size
+        double mathConst = vectorLenght / desiredMovementStep;
+        deltaCoordinates.x /= mathConst;
+        deltaCoordinates.y /= mathConst;
+
+        //Then we update the declaredNextCoordinates
+        this.declaredNextCoordinates.x = this.coordinates.x + deltaCoordinates.x;
+        this.declaredNextCoordinates.y = this.coordinates.y + deltaCoordinates.y;
+
+
+    }
+    @Override
+    public void walkTick(){
+        this.coordinates = declaredNextCoordinates;
     }
     @Override
     public void attackTick() {

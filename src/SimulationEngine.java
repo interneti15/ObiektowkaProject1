@@ -5,6 +5,11 @@ public class SimulationEngine {
     public static ArrayList<SimplifiedSimulationObject> SimpleSimulationObjectList = new ArrayList<SimplifiedSimulationObject>();
     public static int tickCount = 0;
 
+
+    //The two static fields below will represent the boundaries of the simulation
+    public final static Coordinates maxPositive = new Coordinates(100,100);
+    public final static Coordinates maxNegative = new Coordinates(-100,-100);
+
     SimulationEngine(){
 
     }
@@ -15,6 +20,9 @@ public class SimulationEngine {
             SimpleSimulationObjectList.add(new SimplifiedSimulationObject(object));
         }
 
+        for (SimulationObject object : ObjectsToTick) {
+            object.walkTickDeclareNext();
+        }
         for (SimulationObject object : ObjectsToTick) {
             object.walkTick();
         }
