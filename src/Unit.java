@@ -53,7 +53,7 @@ abstract class Unit extends SimulationObject
         this.declaredNextCoordinates.x = this.coordinates.x + deltaCoordinates.x;
         this.declaredNextCoordinates.y = this.coordinates.y + deltaCoordinates.y;
 
-
+        checkBoundries();
     }
     @Override
     public void walkTick(){
@@ -88,5 +88,21 @@ abstract class Unit extends SimulationObject
         }
 
         return closestEnemyIndex;
+    }
+
+    private void checkBoundries(){
+        if (this.declaredNextCoordinates.x > SimulationEngine.maxPositive.x){
+            this.declaredNextCoordinates.x = SimulationEngine.maxPositive.x;
+        }
+        else if (this.declaredNextCoordinates.x < SimulationEngine.maxNegative.x){
+            this.declaredNextCoordinates.x = SimulationEngine.maxNegative.x;
+        }
+
+        if (this.declaredNextCoordinates.y > SimulationEngine.maxPositive.y){
+            this.declaredNextCoordinates.y = SimulationEngine.maxPositive.y;
+        }
+        else if (this.declaredNextCoordinates.y < SimulationEngine.maxNegative.y){
+            this.declaredNextCoordinates.y = SimulationEngine.maxNegative.y;
+        }
     }
 }
