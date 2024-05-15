@@ -37,6 +37,22 @@ public class SimulationEngine {
             object.afterTick();
         }
 
+        //Applying dmgTaken to health
+        for (int i = 0; i < SimpleSimulationObjectList.size(); i++){
+            if (this.ObjectsToTick.get(i).isThisType(SimulationObjectType.UNIT)){
+                ((Unit)this.ObjectsToTick.get(i)).health -= SimpleSimulationObjectList.get(i).getDmgTaken();
+            }
+        }
+        //Removing objects whose health has fallen below 0
+        for (int i = 0; i < this.ObjectsToTick.size(); i++){
+            if (this.ObjectsToTick.get(i).isThisType(SimulationObjectType.UNIT)){
+                if (((Unit)this.ObjectsToTick.get(i)).health < 0){
+                    this.ObjectsToTick.remove(i);
+                    i--;
+                }
+            }
+        }
+
         tickCount++;
     }
 
@@ -47,5 +63,9 @@ public class SimulationEngine {
         for (SimulationObject object : ObjectsToTick) {
             SimpleSimulationObjectList.add(new SimplifiedSimulationObject(object));
         }
+    }
+
+    public ArrayList<SimulationObject> DEBUG_getObjectsList(){
+        return this.ObjectsToTick;
     }
 }

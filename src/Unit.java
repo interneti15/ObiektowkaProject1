@@ -59,10 +59,7 @@ abstract class Unit extends SimulationObject
     public void walkTick(){
         this.coordinates = declaredNextCoordinates;
     }
-    @Override
-    public void attackTick() {
 
-    }
     @Override
     public void afterTick() {
 
