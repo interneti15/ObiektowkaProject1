@@ -1,15 +1,16 @@
 public class Knight extends UnitMelee{
 
-    Knight(Coordinates c1){
-        super();
+    Knight(Coordinates coordinates, String team){
+        super(coordinates);
         this.types.add(SimulationObjectType.KNIGHT);
 
+        this.coordinates = coordinates;
         this.health = 100;
         this.range = 1;
         this.damage = 10;
         this.tickPerAttack = 20;
         this.maxStepDistance = 1;
-        this.team = "any";
+        this.team = team;
 
     }
 

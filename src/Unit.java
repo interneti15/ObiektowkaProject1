@@ -9,11 +9,11 @@ abstract class Unit extends SimulationObject
     protected String team;//Team to which the unit belongs
 
 
-    public Unit() {
+    public Unit(Coordinates coordinates) {
         super();
         this.types.add(SimulationObjectType.UNIT);
 
-        this.declaredNextCoordinates = this.coordinates;//This is important in case the object were to not move
+        this.declaredNextCoordinates = coordinates;//This is important in case the object were to not move
     }
     //protected String type;//more like name of the unit  archer,knight
 

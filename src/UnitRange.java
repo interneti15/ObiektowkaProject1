@@ -1,7 +1,7 @@
 abstract class UnitRange extends Unit{
 
-    UnitRange(){
-        super();
+    UnitRange(Coordinates coordinates){
+        super(coordinates);
         this.types.add(SimulationObjectType.UNIT_RANGE);
     }
     protected Projectile projectile;

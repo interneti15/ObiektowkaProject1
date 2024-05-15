@@ -7,11 +7,15 @@ public class SimulationEngine {
 
 
     //The two static fields below will represent the boundaries of the simulation
-    public final static Coordinates maxPositive = new Coordinates(100,100);
-    public final static Coordinates maxNegative = new Coordinates(-100,-100);
+    public final static Coordinates maxPositive = new Coordinates(1000,1000);
+    public final static Coordinates maxNegative = new Coordinates(-1000,-1000);
 
     SimulationEngine(){
 
+    }
+
+    public void addNewSimulationObject(SimulationObject newObject){
+        ObjectsToTick.add(newObject);
     }
 
     void tick() {//1 game tick consist of updateing list with coords of objects, then we to walk tick designed for changing of coords, then attack tick for atacking and after tick for any other things
@@ -34,5 +38,14 @@ public class SimulationEngine {
         }
 
         tickCount++;
+    }
+
+
+    //DEBUG methods will only be used for debugging
+    public void DEBUG_refreshSimpleList(){
+        SimpleSimulationObjectList = new ArrayList<SimplifiedSimulationObject>();
+        for (SimulationObject object : ObjectsToTick) {
+            SimpleSimulationObjectList.add(new SimplifiedSimulationObject(object));
+        }
     }
 }

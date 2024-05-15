@@ -1,7 +1,7 @@
 abstract class UnitMelee extends Unit{
     protected int damage;
-    UnitMelee(){
-        super();
+    UnitMelee(Coordinates coordinates){
+        super(coordinates);
         this.types.add(SimulationObjectType.UNIT_MELEE);
     }
 }
