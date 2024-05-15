@@ -20,8 +20,21 @@ public class Main {
             engine.addNewSimulationObject(temp);
         }
 
-        engine.addNewSimulationObject(new Arrow(new Coordinates(0,0), new Coordinates(100,100), "red"));
-        engine.addNewSimulationObject(new Knight(new Coordinates(20,20), "green"));
+        if (false) {
+            engine.addNewSimulationObject(new Arrow(new Coordinates(0, 0), new Coordinates(100, 100), "red"));
+            engine.addNewSimulationObject(new Knight(new Coordinates(20, 20), "red"));
+        }
+
+        if (false){
+            Knight knight = new Knight(new Coordinates(200, 200), "red");
+            knight.canMove = false;
+            knight.isImmortal = true;
+            engine.addNewSimulationObject(knight);
+
+            Archer archer = new Archer(new Coordinates(0,0), "green");
+            archer.range = 10000;
+            engine.addNewSimulationObject(archer);
+        }
 
         while (true){
             engine.tick();
@@ -30,7 +43,8 @@ public class Main {
             for (SimulationObject obj: lista){
                 System.out.printf("ID: %d X: %f, Y: %f, Health: %f \n", ((Unit)obj).ID, ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health);
             }
-            System.out.println(SimulationEngine.SimpleSimulationObjectList.size());
+            engine.DEBUG_refreshSimpleList();
+            System.out.println(SimulationEngine.simpleSimulationObjectList.size());
             Scanner scanner = new Scanner(System.in);
             scanner.nextLine();
 

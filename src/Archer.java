@@ -11,7 +11,7 @@ public class Archer extends UnitRange{
         this.maxStepDistance = 1;
         this.team = team;
 
-
+        this.projectile = Arrow.class;
     }
 }
 

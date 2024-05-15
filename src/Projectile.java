@@ -19,10 +19,10 @@ abstract class Projectile extends Unit{// unit that dies when atacks or when arr
             return;
         }
 
-        if (Coordinates.distanceBetweenTwo(SimulationEngine.SimpleSimulationObjectList.get(closestEnemyIndex).getCoordinates(), this.coordinates) <= this.range){
+        if (Coordinates.distanceBetweenTwo(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates(), this.coordinates) <= this.range){
 
-            int dmgTaken = SimulationEngine.SimpleSimulationObjectList.get(closestEnemyIndex).getDmgTaken();
-            SimulationEngine.SimpleSimulationObjectList.get(closestEnemyIndex).setDmgTaken(dmgTaken + this.damage);
+            int dmgTaken = SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getDmgTaken();
+            SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).setDmgTaken(dmgTaken + this.damage);
 
             //We set projectile to some negative value so Engine will delete it
             this.health = ((-Double.MAX_VALUE))/2;

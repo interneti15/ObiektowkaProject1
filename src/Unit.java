@@ -7,6 +7,8 @@ abstract class Unit extends SimulationObject
     protected double maxStepDistance;//max distance able to move per tick
     protected double tickPerAttack;//ticks between atack opportuniteis
     protected String team;//Team to which the unit belongs
+    protected boolean canMove = true;
+    protected boolean isImmortal = false;
 
 
     public Unit(Coordinates coordinates) {
@@ -20,6 +22,9 @@ abstract class Unit extends SimulationObject
     @Override
     public void walkTickDeclareNext() {
 
+        if (!canMove){
+            return;
+        }
         //First we search for closest enemy, to be exact to its position in SimplifiedList
         int closestEnemyIndex = findClosestEnemyIndex();
 
@@ -29,7 +34,7 @@ abstract class Unit extends SimulationObject
         }
 
         // We will treat the var below as a vector describing relation between this unit and the enemy
-        Coordinates deltaCoordinates = new Coordinates(SimulationEngine.SimpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().x - this.coordinates.x, SimulationEngine.SimpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().y - this.coordinates.y);
+        Coordinates deltaCoordinates = new Coordinates(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().x - this.coordinates.x, SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().y - this.coordinates.y);
         double vectorLenght = Math.sqrt((Math.pow(deltaCoordinates.x,2) + Math.pow(deltaCoordinates.y,2)));
 
         if (vectorLenght < this.range) {// We don't move if we are already in range
@@ -57,7 +62,7 @@ abstract class Unit extends SimulationObject
     }
     @Override
     public void walkTick(){
-        this.coordinates = declaredNextCoordinates;
+        this.coordinates = this.declaredNextCoordinates;
     }
 
     @Override
@@ -72,8 +77,8 @@ abstract class Unit extends SimulationObject
         int closestEnemyIndex = -1; //-1 will mean that no object was found
 
         // We ignore objects that team is the same as this unit and system labaled objects, we only search for enemy units
-        for (int i = 0; i < SimulationEngine.SimpleSimulationObjectList.size(); i++){
-            SimplifiedSimulationObject object = SimulationEngine.SimpleSimulationObjectList.get(i);
+        for (int i = 0; i < SimulationEngine.simpleSimulationObjectList.size(); i++){
+            SimplifiedSimulationObject object = SimulationEngine.simpleSimulationObjectList.get(i);
             if (object.getTeam().equals(this.team) || object.getTeam().equals("system") || object.getID() == this.ID){
                 continue;
             }
