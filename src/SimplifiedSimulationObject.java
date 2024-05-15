@@ -14,7 +14,12 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
         this.types = object.types;
 
         if (object.isThisType(SimulationObjectType.UNIT)){
-            this.team = ((Unit)object).team;
+            if (object.isThisType(SimulationObjectType.PROJECTILE)){// We will label projectiles as system
+                this.team = "system";
+            }
+            else{
+                this.team = ((Unit)object).team;
+            }
         }
         else{
             this.team = "system";

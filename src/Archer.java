@@ -10,7 +10,8 @@ public class Archer extends UnitRange{
         this.tickPerAttack = 20;
         this.maxStepDistance = 1;
         this.team = team;
-        this.projectile = new Arrow();
+
+
     }
 }
 

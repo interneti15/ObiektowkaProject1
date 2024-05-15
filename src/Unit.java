@@ -74,7 +74,7 @@ abstract class Unit extends SimulationObject
         // We ignore objects that team is the same as this unit and system labaled objects, we only search for enemy units
         for (int i = 0; i < SimulationEngine.SimpleSimulationObjectList.size(); i++){
             SimplifiedSimulationObject object = SimulationEngine.SimpleSimulationObjectList.get(i);
-            if (object.getTeam().equals(this.team) || object.getTeam().equals("system")){
+            if (object.getTeam().equals(this.team) || object.getTeam().equals("system") || object.getID() == this.ID){
                 continue;
             }
             double distanceInThisIteration = Coordinates.distanceBetweenTwo(this.coordinates, object.getCoordinates());
@@ -87,7 +87,7 @@ abstract class Unit extends SimulationObject
         return closestEnemyIndex;
     }
 
-    private void checkBoundries(){
+    protected void checkBoundries(){
         if (this.declaredNextCoordinates.x > SimulationEngine.maxPositive.x){
             this.declaredNextCoordinates.x = SimulationEngine.maxPositive.x;
         }

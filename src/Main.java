@@ -7,17 +7,21 @@ public class Main {
         SimulationEngine engine = new SimulationEngine();
 
 
-        Knight temp = new Knight(new Coordinates(100,0),"blue");
-        temp.health = 2000;
-        engine.addNewSimulationObject(temp);
+        if (false) {
+            Knight temp = new Knight(new Coordinates(100, 0), "blue");
+            temp.health = 2000;
+            engine.addNewSimulationObject(temp);
 
-        temp = new Knight(new Coordinates(-100,1),"red");
-        engine.addNewSimulationObject(temp);
-        temp = new Knight(new Coordinates(-100,0),"red");
-        engine.addNewSimulationObject(temp);
-        temp = new Knight(new Coordinates(-100,2),"red");
-        engine.addNewSimulationObject(temp);
+            temp = new Knight(new Coordinates(-100, 1), "red");
+            engine.addNewSimulationObject(temp);
+            temp = new Knight(new Coordinates(-100, 0), "red");
+            engine.addNewSimulationObject(temp);
+            temp = new Knight(new Coordinates(-100, 2), "red");
+            engine.addNewSimulationObject(temp);
+        }
 
+        engine.addNewSimulationObject(new Arrow(new Coordinates(0,0), new Coordinates(100,100), "red"));
+        engine.addNewSimulationObject(new Knight(new Coordinates(20,20), "green"));
 
         while (true){
             engine.tick();
