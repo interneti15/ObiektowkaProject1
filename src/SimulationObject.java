@@ -29,7 +29,7 @@ abstract class SimulationObject {
     public abstract void afterTick();
 
     public boolean isThisType(SimulationObjectType desiredType){
-        for(SimulationObjectType type : types){
+        for(SimulationObjectType type : this.types){
             if (type == desiredType){
                 return true;
             }

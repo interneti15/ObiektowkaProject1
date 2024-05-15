@@ -41,7 +41,8 @@ public class Main {
 
             ArrayList<SimulationObject> lista = engine.DEBUG_getObjectsList();
             for (SimulationObject obj: lista){
-                System.out.printf("ID: %d X: %f, Y: %f, Health: %f \n", ((Unit)obj).ID, ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health);
+
+                System.out.printf("ID: %d Type: %s X: %f, Y: %f, Health: %f \n", ((Unit)obj).ID,obj.getClass().getName(), ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health);
             }
             engine.DEBUG_refreshSimpleList();
             System.out.println(SimulationEngine.simpleSimulationObjectList.size());

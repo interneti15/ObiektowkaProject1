@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 public class SimulationEngine {
 
-    private static ArrayList<SimulationObject> objectsToTick = new ArrayList<SimulationObject>();
+    private ArrayList<SimulationObject> objectsToTick = new ArrayList<SimulationObject>();
     public static ArrayList<SimplifiedSimulationObject> simpleSimulationObjectList = new ArrayList<SimplifiedSimulationObject>();
     private static int tickCount = 0;
     public static ArrayList<SimulationObject> objectsToAdd = new ArrayList<SimulationObject>();

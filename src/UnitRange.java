@@ -9,17 +9,18 @@ abstract class UnitRange extends Unit{
     }
 
     protected int damage;
-
-    protected   Class<? extends Projectile> projectile;
+    protected Class<? extends Projectile> projectile;
 
     @Override
     public void attackTick(){
 
+        //Finding the closest enemy and returning if none were found
         int closestEnemyIndex = findClosestEnemyIndex();
         if (closestEnemyIndex == -1){
             return;
         }
 
+        //Spawning new Simulation Object Projectile
         try {
             Constructor<? extends Projectile> constructor = projectile.getDeclaredConstructor(
                     Coordinates.class, Coordinates.class, String.class
