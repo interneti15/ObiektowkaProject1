@@ -68,7 +68,7 @@ public class SimulationEngine {
     private void removeDeadObjects() {
         for (int i = 0; i < this.objectsToTick.size(); i++){
             if (this.objectsToTick.get(i).isThisType(SimulationObjectType.UNIT)){
-                if (((Unit)this.objectsToTick.get(i)).health < 0){
+                if (((Unit)this.objectsToTick.get(i)).health <= 0){
                     this.objectsToTick.remove(i);
                     i--;
                 }
