@@ -107,4 +107,8 @@ abstract class Unit extends SimulationObject
             this.declaredNextCoordinates.y = SimulationEngine.maxNegative.y;
         }
     }
+
+    static boolean isCloseEnoughForAttack(double num1, double num2){//This will be used to check if isCloseEnoughForAttack
+        return Math.abs(num1 - num2) < 0.001;
+    }
 }

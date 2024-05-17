@@ -7,7 +7,7 @@ public class Main {
         SimulationEngine engine = new SimulationEngine();
 
 
-        if (false) {
+        if (true) {
             Knight temp = new Knight(new Coordinates(100, 0), "blue");
             temp.health = 2000;
             engine.addNewSimulationObject(temp);
@@ -20,7 +20,7 @@ public class Main {
             engine.addNewSimulationObject(temp);
         }
 
-        if (false) {
+        if (true) {
             engine.addNewSimulationObject(new Arrow(new Coordinates(0, 0), new Coordinates(100, 100), "red"));
             engine.addNewSimulationObject(new Knight(new Coordinates(20, 20), "red"));
         }
@@ -48,6 +48,7 @@ public class Main {
             System.out.println(SimulationEngine.simpleSimulationObjectList.size());
             Scanner scanner = new Scanner(System.in);
             scanner.nextLine();
+
 
         }
 

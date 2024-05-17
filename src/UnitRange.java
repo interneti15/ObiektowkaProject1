@@ -19,8 +19,12 @@ abstract class UnitRange extends Unit{
         if (closestEnemyIndex == -1){
             return;
         }
+        //If closest enemy is not in range we return
+        if (!(isCloseEnoughForAttack(Coordinates.distanceBetweenTwo(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates(), this.coordinates) , this.range))) {
+            return;
+        }
 
-        //Spawning new Simulation Object Projectile
+            //Spawning new Simulation Object Projectile
         try {
             Constructor<? extends Projectile> constructor = projectile.getDeclaredConstructor(
                     Coordinates.class, Coordinates.class, String.class
