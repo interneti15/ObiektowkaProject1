@@ -9,7 +9,7 @@ public class BattlePanel extends JPanel {
         //tutaj dodajemy jednostki na razie
 
         Knight knight = new Knight(new Coordinates(0,0), Color.red);
-        knight.canMove = false;
+        knight.canMove = true;
         knight.isImmortal = true;
         engine.addNewSimulationObject(knight);
 

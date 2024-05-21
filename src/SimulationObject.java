@@ -39,10 +39,4 @@ abstract class SimulationObject {
         return false;
     }
 
-    public Color getTeam(){
-        if (isThisType(SimulationObjectType.UNIT)){
-            return ((Unit)this).team;
-        }
-        return Color.gray;
-    }
 }

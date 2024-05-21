@@ -16,13 +16,17 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
         this.coordinates = object.coordinates;
         this.ID = object.ID;
         this.types = object.types;
+        this.sprite = object.sprite;
 
-        this.team = object.getTeam();
         if (object.isThisType(SimulationObjectType.PROJECTILE)){
             this.team = Color.gray;
         }
-
-        this.sprite = object.sprite;
+        else if (object.isThisType(SimulationObjectType.UNIT)){
+            this.team = ((Unit)object).team;
+        }
+        else{
+            this.team = Color.gray;
+        }
     }
 
     public int getID(){
