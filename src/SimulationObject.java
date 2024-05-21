@@ -1,4 +1,6 @@
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
+import java.awt.*;
 
 enum SimulationObjectType{//Used for object identification
     SIMULATION_OBJECT,
@@ -27,6 +29,9 @@ abstract class SimulationObject {
     public abstract void walkTick();
     public abstract void attackTick();
     public abstract void afterTick();
+    public abstract Color getTeam();
+
+    public abstract Ellipse2D.Double getShape();
 
     public boolean isThisType(SimulationObjectType desiredType){
         for(SimulationObjectType type : this.types){

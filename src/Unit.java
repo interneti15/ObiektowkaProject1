@@ -1,4 +1,5 @@
-
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 abstract class Unit extends SimulationObject
 {
@@ -6,7 +7,7 @@ abstract class Unit extends SimulationObject
     protected double range;//range
     protected double maxStepDistance;//max distance able to move per tick
     protected double tickPerAttack;//ticks between atack opportuniteis
-    protected String team;//Team to which the unit belongs
+    protected Color team;//Team to which the unit belongs
     protected boolean canMove = true;
     protected boolean isImmortal = false;
 
@@ -70,6 +71,16 @@ abstract class Unit extends SimulationObject
 
     }
 
+    @Override
+    public Color getTeam(){
+        return team;
+    }
+
+    @Override
+    public Ellipse2D.Double getShape(){
+        return new Ellipse2D.Double(this.coordinates.x, this.coordinates.y, 50,50);
+    }
+
 
     protected int findClosestEnemyIndex(){
         double minimumDistanceFound = Double.MAX_VALUE;
@@ -79,7 +90,7 @@ abstract class Unit extends SimulationObject
         // We ignore objects that team is the same as this unit and system labaled objects, we only search for enemy units
         for (int i = 0; i < SimulationEngine.simpleSimulationObjectList.size(); i++){
             SimplifiedSimulationObject object = SimulationEngine.simpleSimulationObjectList.get(i);
-            if (object.getTeam().equals(this.team) || object.getTeam().equals("system") || object.getID() == this.ID){
+            if (object.getTeam().equals(this.team) || object.getTeam().equals(Color.green) || object.getID() == this.ID){
                 continue;
             }
             double distanceInThisIteration = Coordinates.distanceBetweenTwo(this.coordinates, object.getCoordinates());

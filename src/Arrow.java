@@ -1,5 +1,6 @@
+import java.awt.*;
 public class Arrow extends Projectile{
-    Arrow(Coordinates spawnCoordinates, Coordinates destination, String team){
+    Arrow(Coordinates spawnCoordinates, Coordinates destination, Color team){
         super(spawnCoordinates);
         this.types.add(SimulationObjectType.ARROW);
 
