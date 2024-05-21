@@ -11,6 +11,8 @@ public class Arrow extends Projectile{
         this.damage = 10;
 
         this.maxStepDistance = 5;
-        this.team = team; 
+        this.team = team;
+
+        this.sprite = new Coordinates(10,10);
     }
 }

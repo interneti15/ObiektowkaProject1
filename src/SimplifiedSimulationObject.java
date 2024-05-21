@@ -10,22 +10,19 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     private int dmgTaken = 0; // We will use this to count damage that given object has taken
     private Color team;
 
+    private Coordinates sprite;
+
     SimplifiedSimulationObject(SimulationObject object){
         this.coordinates = object.coordinates;
         this.ID = object.ID;
         this.types = object.types;
 
-        if (object.isThisType(SimulationObjectType.UNIT)){
-            if (object.isThisType(SimulationObjectType.PROJECTILE)){// We will label projectiles as green
-                this.team = Color.green;
-            }
-            else{
-                this.team = ((Unit)object).team;
-            }
+        this.team = object.getTeam();
+        if (object.isThisType(SimulationObjectType.PROJECTILE)){
+            this.team = Color.gray;
         }
-        else{
-            this.team = Color.green;
-        }
+
+        this.sprite = object.sprite;
     }
 
     public int getID(){
@@ -43,7 +40,7 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     }
 
     public Ellipse2D.Double getShape(){
-        return new Ellipse2D.Double(this.coordinates.x, this.coordinates.y, 50, 50);
+        return new Ellipse2D.Double(this.coordinates.x, this.coordinates.y, sprite.x, sprite.y);
     }
 
     public boolean isThisType(SimulationObjectType desiredType){

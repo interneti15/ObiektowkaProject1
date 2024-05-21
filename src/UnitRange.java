@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -14,6 +15,11 @@ abstract class UnitRange extends Unit{
     @Override
     public void attackTick(){
 
+        if (SimulationEngine.getTickCount() < this.lastAttack + this.tickPerAttack){
+            return;
+        }
+        lastAttack = SimulationEngine.getTickCount();
+
         //Finding the closest enemy and returning if none were found
         int closestEnemyIndex = findClosestEnemyIndex();
         if (closestEnemyIndex == -1){
@@ -27,7 +33,7 @@ abstract class UnitRange extends Unit{
             //Spawning new Simulation Object Projectile
         try {
             Constructor<? extends Projectile> constructor = projectile.getDeclaredConstructor(
-                    Coordinates.class, Coordinates.class, String.class
+                    Coordinates.class, Coordinates.class, Color.class
             );
             SimulationObject obj = constructor.newInstance(new Coordinates(this.coordinates.x, this.coordinates.y), SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates(), this.team);
             SimulationEngine.objectsToAdd.add(obj);

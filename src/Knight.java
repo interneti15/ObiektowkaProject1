@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+
 public class Knight extends UnitMelee{
 
     Knight(Coordinates coordinates, Color team){
@@ -13,6 +15,7 @@ public class Knight extends UnitMelee{
         this.maxStepDistance = 5;
         this.team = team;
 
+        this.sprite = new Coordinates(50,50);
     }
 
     public void test(){

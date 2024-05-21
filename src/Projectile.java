@@ -5,7 +5,8 @@ abstract class Projectile extends Unit{// unit that dies when atacks or when arr
     Projectile(Coordinates spawnCoordinates){
         super(spawnCoordinates);
         this.types.add(SimulationObjectType.PROJECTILE);
-        this.health = Double.MAX_VALUE/2;
+        this.health = 2;
+        this.isImmortal = true;
     }
 
     protected Coordinates destination;

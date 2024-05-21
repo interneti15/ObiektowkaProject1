@@ -8,6 +8,11 @@ abstract class UnitMelee extends Unit{
     @Override
     public void attackTick() {
 
+        if (SimulationEngine.getTickCount() < this.lastAttack + this.tickPerAttack){
+            return;
+        }
+        lastAttack = SimulationEngine.getTickCount();
+
         int closestEnemyIndex = findClosestEnemyIndex();
         if (closestEnemyIndex == -1){
             return;

@@ -24,14 +24,11 @@ abstract class SimulationObject {
         this.ID = objectCount;
         objectCount++;
     }
-    //protected |--| look <- tu klasa z wygladem sprita
+    protected Coordinates sprite;
     public abstract void walkTickDeclareNext();
     public abstract void walkTick();
     public abstract void attackTick();
     public abstract void afterTick();
-    public abstract Color getTeam();
-
-    public abstract Ellipse2D.Double getShape();
 
     public boolean isThisType(SimulationObjectType desiredType){
         for(SimulationObjectType type : this.types){
@@ -42,4 +39,10 @@ abstract class SimulationObject {
         return false;
     }
 
+    public Color getTeam(){
+        if (isThisType(SimulationObjectType.UNIT)){
+            return ((Unit)this).team;
+        }
+        return Color.gray;
+    }
 }

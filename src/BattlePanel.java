@@ -7,20 +7,18 @@ public class BattlePanel extends JPanel {
     public BattlePanel(SimulationEngine engine){
         this.engine = engine;
         //tutaj dodajemy jednostki na razie
-        Knight temp = new Knight(new Coordinates(100, 400), Color.blue);
-        temp.health = 2000;
-        engine.addNewSimulationObject(temp);
 
-        temp = new Knight(new Coordinates(600, 100), Color.pink  );
-        engine.addNewSimulationObject(temp);
-        temp = new Knight(new Coordinates(100, 600), Color.red);
-        engine.addNewSimulationObject(temp);
-        temp = new Knight(new Coordinates(300, 800), Color.red);
-        engine.addNewSimulationObject(temp);
-//        Archer archer = new Archer(new Coordinates(0,0), Color.yellow);
-//        engine.addNewSimulationObject(archer);
-//        Archer archer1 = new Archer(new Coordinates(500,500), Color.pink);
-//        engine.addNewSimulationObject(archer1);
+        Knight knight = new Knight(new Coordinates(0,0), Color.red);
+        knight.canMove = false;
+        knight.isImmortal = true;
+        engine.addNewSimulationObject(knight);
+
+        Archer archer = new Archer(new Coordinates(500,500),Color.blue);
+        archer.range = 1000;
+        archer.canMove = false;
+        engine.addNewSimulationObject(archer);
+
+
     }
 
     @Override
@@ -31,7 +29,7 @@ public class BattlePanel extends JPanel {
 //                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON
 //        );
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        for(SimulationObject object : engine.objectsToTick){
+        for(SimplifiedSimulationObject object : SimulationEngine.simpleSimulationObjectList){
             g2d.setColor(object.getTeam());
             g2d.fill(object.getShape());
         }
