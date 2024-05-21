@@ -10,6 +10,9 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     private int dmgTaken = 0; // We will use this to count damage that given object has taken
     private Color team;
 
+    private int lastDamageTaken= -(Integer.MAX_VALUE)/2;
+    private int lastAttack = -(Integer.MAX_VALUE)/2;
+
     private Coordinates sprite;
 
     SimplifiedSimulationObject(SimulationObject object){
@@ -23,6 +26,8 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
         }
         else if (object.isThisType(SimulationObjectType.UNIT)){
             this.team = ((Unit)object).team;
+            this.lastAttack = ((Unit)object).lastAttack;
+            this.lastDamageTaken = ((Unit)object).lastDamageTaken;
         }
         else{
             this.team = Color.gray;
@@ -43,8 +48,18 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
         return team;
     }
 
+    public Color getColor(){
+        if (SimulationEngine.getTickCount() - this.lastAttack < 5){
+            return Color.yellow;
+        }
+        else if (SimulationEngine.getTickCount() - this.lastDamageTaken < 6){
+            return Color.red;
+        }
+        return getTeam();
+    }
+
     public Ellipse2D.Double getShape(){
-        return new Ellipse2D.Double(this.coordinates.x, this.coordinates.y, sprite.x, sprite.y);
+        return new Ellipse2D.Double(this.coordinates.x - this.sprite.x/2, this.coordinates.y - this.sprite.y/2, this.sprite.x, this.sprite.y);
     }
 
     public boolean isThisType(SimulationObjectType desiredType){

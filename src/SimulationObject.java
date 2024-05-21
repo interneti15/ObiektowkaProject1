@@ -38,5 +38,8 @@ abstract class SimulationObject {
         }
         return false;
     }
+    public double getSizeOfSprite(){
+        return (this.sprite.x + this.sprite.y)/2;
+    }
 
 }

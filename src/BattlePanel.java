@@ -8,17 +8,19 @@ public class BattlePanel extends JPanel {
         this.engine = engine;
         //tutaj dodajemy jednostki na razie
 
-        Knight knight = new Knight(new Coordinates(0,0), Color.red);
-        knight.canMove = true;
-        knight.isImmortal = true;
+        Knight knight = new Knight(new Coordinates(100,100), Color.green);
         engine.addNewSimulationObject(knight);
 
-        Archer archer = new Archer(new Coordinates(500,500),Color.blue);
-        archer.range = 1000;
-        archer.canMove = false;
+        knight = new Knight(new Coordinates(130,101), Color.green);
+        engine.addNewSimulationObject(knight);
+
+        knight = new Knight(new Coordinates(300,300), Color.cyan);
+        knight.health *= 4;
+        engine.addNewSimulationObject(knight);
+
+        Archer archer = new Archer(new Coordinates(600,600), Color.cyan);
+        archer.range *= 100;
         engine.addNewSimulationObject(archer);
-
-
     }
 
     @Override
@@ -30,7 +32,7 @@ public class BattlePanel extends JPanel {
 //        );
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for(SimplifiedSimulationObject object : SimulationEngine.simpleSimulationObjectList){
-            g2d.setColor(object.getTeam());
+            g2d.setColor(object.getColor());
             g2d.fill(object.getShape());
         }
     }

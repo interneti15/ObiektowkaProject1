@@ -11,7 +11,6 @@ abstract class UnitMelee extends Unit{
         if (SimulationEngine.getTickCount() < this.lastAttack + this.tickPerAttack){
             return;
         }
-        lastAttack = SimulationEngine.getTickCount();
 
         int closestEnemyIndex = findClosestEnemyIndex();
         if (closestEnemyIndex == -1){
@@ -22,6 +21,7 @@ abstract class UnitMelee extends Unit{
 
             int dmgTaken = SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getDmgTaken();
             SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).setDmgTaken(dmgTaken + this.damage);
+            this.lastAttack = SimulationEngine.getTickCount();
         }
 
     }

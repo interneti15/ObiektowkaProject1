@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Window extends JFrame {
@@ -16,12 +17,19 @@ public class Window extends JFrame {
            engine.tick();
            battlePanel.drawSimulation();
             ArrayList<SimulationObject> lista = engine.DEBUG_getObjectsList();
+            System.out.printf("TickNow: %d \n",SimulationEngine.getTickCount());
             for (SimulationObject obj: lista){
-
-                System.out.printf("ID: %d Type: %s X: %f, Y: %f, Health: %f \n", ((Unit)obj).ID,obj.getClass().getName(), ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health);
+                System.out.printf("ID: %d Type: %s X: %f, Y: %f, Health: %f LastAtack: %d LastDmg: %d\n", ((Unit)obj).ID,obj.getClass().getName(), ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health, ((Unit)obj).lastAttack, ((Unit)obj).lastDamageTaken);
             }
             engine.DEBUG_refreshSimpleList();
             System.out.println(SimulationEngine.simpleSimulationObjectList.size());
+//            try {
+//                // This line waits for the user to press any key
+//                System.in.read();
+//            } catch (IOException f) {
+//                f.printStackTrace();
+//            }
+
         });
         timer.start();
 

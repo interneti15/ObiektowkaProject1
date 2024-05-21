@@ -18,13 +18,13 @@ abstract class UnitRange extends Unit{
         if (SimulationEngine.getTickCount() < this.lastAttack + this.tickPerAttack){
             return;
         }
-        lastAttack = SimulationEngine.getTickCount();
 
         //Finding the closest enemy and returning if none were found
         int closestEnemyIndex = findClosestEnemyIndex();
         if (closestEnemyIndex == -1){
             return;
         }
+
         //If closest enemy is not in range we return
         if (!(isCloseEnoughForAttack(Coordinates.distanceBetweenTwo(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates(), this.coordinates) , this.range))) {
             return;
@@ -32,6 +32,7 @@ abstract class UnitRange extends Unit{
 
             //Spawning new Simulation Object Projectile
         try {
+            this.lastAttack = SimulationEngine.getTickCount();
             Constructor<? extends Projectile> constructor = projectile.getDeclaredConstructor(
                     Coordinates.class, Coordinates.class, Color.class
             );

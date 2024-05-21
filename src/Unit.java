@@ -10,7 +10,8 @@ abstract class Unit extends SimulationObject
     protected Color team;//Team to which the unit belongs
     protected boolean canMove = true;
     protected boolean isImmortal = false;
-    protected int lastAttack = -(Integer.MAX_VALUE); // At witch tick an attack occured
+    protected int lastAttack = -(Integer.MAX_VALUE)/2; // At which tick an attack occured
+    protected int lastDamageTaken = -(Integer.MAX_VALUE)/2; // At which tick an unit has taken damage
 
 
     public Unit(Coordinates coordinates) {
@@ -64,6 +65,9 @@ abstract class Unit extends SimulationObject
     }
     @Override
     public void walkTick(){
+        if (!canMove){
+            return;
+        }
         this.coordinates = this.declaredNextCoordinates;
     }
 

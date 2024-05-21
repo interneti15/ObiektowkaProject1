@@ -20,16 +20,22 @@ public class SimulationEngine {
     public void tick() {//1 game tick consist of updateing list with coords of objects, then we to walk tick designed for changing of coords, then attack tick for atacking and after tick for any other things
         refreshSimpleList(); // Refreshing this whole list with object coordinates and basic info, this will be later used to count damge dealt between units
 
-        for (SimulationObject object : objectsToTick) {
+        for (SimulationObject object : this.objectsToTick) {
             object.walkTickDeclareNext();
         }
-        for (SimulationObject object : objectsToTick) {
+        for (SimulationObject object : this.objectsToTick) {
             object.walkTick();
         }
-        for (SimulationObject object : objectsToTick) {
+
+        collisionCheckAndFix();
+        for (SimulationObject object : this.objectsToTick) {// ColisionCheck method changes declaredPosition of objects, so we need to iterate once more over walkTick method
+            object.walkTick();
+        }
+
+        for (SimulationObject object : this.objectsToTick) {
             object.attackTick();
         }
-        for (SimulationObject object : objectsToTick) {
+        for (SimulationObject object : this.objectsToTick) {
             object.afterTick();
         }
 
@@ -62,6 +68,11 @@ public class SimulationEngine {
                     continue;
                 }
                 ((Unit)this.objectsToTick.get(i)).health -= simpleSimulationObjectList.get(i).getDmgTaken();
+
+                if (simpleSimulationObjectList.get(i).getDmgTaken() > 0){
+                    ((Unit)this.objectsToTick.get(i)).lastDamageTaken = SimulationEngine.getTickCount();
+                }
+
             }
         }
     }
@@ -86,6 +97,50 @@ public class SimulationEngine {
         objectsToAdd.clear();
     }
 
+    void collisionCheckAndFix(){// This method will move objects, so they don't overlap each other
+        for (SimulationObject obj : this.objectsToTick){
+            if (!obj.isThisType(SimulationObjectType.UNIT) || obj.isThisType(SimulationObjectType.PROJECTILE)){
+                continue;
+            }
 
+            double smoothnessConst = 32;//Sensitivity something??
+
+            int counter = 0;
+            Coordinates pushVector = new Coordinates();
+
+            for (SimulationObject secondObj : this.objectsToTick){
+                if (obj.ID == secondObj.ID || !secondObj.isThisType(SimulationObjectType.UNIT) || secondObj.isThisType(SimulationObjectType.PROJECTILE)){
+                    continue;
+                }
+
+                double collisionRange = (obj.getSizeOfSprite() + secondObj.getSizeOfSprite())/2;
+
+                if(Coordinates.distanceBetweenTwo(obj.coordinates, secondObj.coordinates) < collisionRange){
+                    Coordinates temp = new Coordinates();
+                    temp.x = -(secondObj.coordinates.x - obj.coordinates.x);
+                    temp.y = -(secondObj.coordinates.y - obj.coordinates.y);
+
+                    double lenght = Coordinates.distanceFrom00(temp);
+                    double mathConst = collisionRange / lenght;
+
+                    temp.x *= mathConst;
+                    temp.y *= mathConst;
+
+                    pushVector.x += temp.x/smoothnessConst;
+                    pushVector.y += temp.y/smoothnessConst;
+
+                    counter++;
+                }
+            }
+            if (counter == 0){
+                continue;
+            }
+            pushVector.x /= counter;
+            pushVector.y /= counter;
+
+            obj.declaredNextCoordinates.x += pushVector.x;
+            obj.declaredNextCoordinates.y += pushVector.y;
+        }
+    }
 
 }
