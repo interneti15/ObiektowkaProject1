@@ -97,13 +97,13 @@ public class SimulationEngine {
         objectsToAdd.clear();
     }
 
-    void collisionCheckAndFix(){// This method will move objects, so they don't overlap each other
+    private void collisionCheckAndFix(){// This method will move objects, so they don't overlap each other, When objects are within collisionRange we calculate vectors betwen them reverse them and apply some smoothing
+        double smoothnessConst = 32;//Sensitivity something??
+
         for (SimulationObject obj : this.objectsToTick){
             if (!obj.isThisType(SimulationObjectType.UNIT) || obj.isThisType(SimulationObjectType.PROJECTILE)){
                 continue;
             }
-
-            double smoothnessConst = 32;//Sensitivity something??
 
             int counter = 0;
             Coordinates pushVector = new Coordinates();
