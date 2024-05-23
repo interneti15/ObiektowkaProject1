@@ -113,7 +113,11 @@ public class SimulationEngine {
                     continue;
                 }
 
-                double collisionRange = (obj.getSizeOfSprite() + secondObj.getSizeOfSprite())/2;
+                double collisionRange = ((obj.getSizeOfSprite() + secondObj.getSizeOfSprite())/2) - 0.01;
+
+                if (collisionRange <= 0){
+                    continue;
+                }
 
                 if(Coordinates.distanceBetweenTwo(obj.coordinates, secondObj.coordinates) < collisionRange){
                     Coordinates temp = new Coordinates();
