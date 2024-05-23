@@ -48,7 +48,7 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
         return team;
     }
 
-    public Color getColor(){
+    public Color getColor(){// This is used to paint unit based on when they have taken dmg or atacked if they didn't we just return their team color
         if (SimulationEngine.getTickCount() - this.lastAttack < 5){
             return Color.yellow;
         }
