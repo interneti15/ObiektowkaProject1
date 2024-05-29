@@ -9,7 +9,7 @@ public class Knight extends UnitMelee{
 
         this.coordinates = coordinates;
         this.health = 100;
-        this.range = 50;
+        this.range = 51;
         this.damage = 10;
         this.tickPerAttack = 20;
         this.maxStepDistance = 3;

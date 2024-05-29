@@ -6,8 +6,9 @@ public class SimulationEngine {
     private static int tickCount = 0;
     public static ArrayList<SimulationObject> objectsToAdd = new ArrayList<SimulationObject>();
     //The two static fields below will represent the boundaries of the simulation
-    public final static Coordinates maxPositive = new Coordinates(1000,1000);
+    public final static Coordinates maxPositive = new Coordinates(950,950);
     public final static Coordinates maxNegative = new Coordinates(0,0);
+
 
     SimulationEngine(){
         
@@ -99,6 +100,8 @@ public class SimulationEngine {
 
     private void collisionCheckAndFix(){// This method will move objects, so they don't overlap each other, When objects are within collisionRange we calculate vectors betwen them reverse them and apply some smoothing
         double smoothnessConst = 32;//Sensitivity something??
+        int collisionConstX = 1;
+        int collisionConstY = 1;
 
         for (SimulationObject obj : this.objectsToTick){
             if (!obj.isThisType(SimulationObjectType.UNIT) || obj.isThisType(SimulationObjectType.PROJECTILE)){
@@ -120,6 +123,25 @@ public class SimulationEngine {
                 }
 
                 if(Coordinates.distanceBetweenTwo(obj.coordinates, secondObj.coordinates) < collisionRange){
+                    if (Coordinates.distanceBetweenTwo(obj.coordinates, secondObj.coordinates) == 0){
+                        obj.coordinates.x += 0.1*collisionConstX;
+                        obj.coordinates.y += 0.1*collisionConstY;
+
+                        if (collisionConstX == 1){
+                            collisionConstX = -1;
+                        }
+                        else{
+                            collisionConstX = 1;
+
+                            if (collisionConstY == 1){
+                                collisionConstY = -1;
+                            }
+                            else{
+                                collisionConstY = 1;
+                            }
+                        }
+
+                    }
                     Coordinates temp = new Coordinates();
                     temp.x = -(secondObj.coordinates.x - obj.coordinates.x);
                     temp.y = -(secondObj.coordinates.y - obj.coordinates.y);

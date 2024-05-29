@@ -42,7 +42,54 @@ abstract class UnitRange extends Unit{
         catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
             System.out.println(e.toString());
         }
+    }
 
-    
+    public void walkTickDeclareNext() {
+
+        if (!canMove){
+            return;
+        }
+        //First we search for closest enemy, to be exact to its position in SimplifiedList
+        int closestEnemyIndex = findClosestEnemyIndex();
+
+        //if none were found we return as we will only move when there are enemies
+        if (closestEnemyIndex == -1){
+            return;
+        }
+
+        // We will treat the var below as a vector describing relation between this unit and the enemy
+        Coordinates deltaCoordinates = new Coordinates(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().x - this.coordinates.x, SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().y - this.coordinates.y);
+        double vectorLenght = Math.sqrt((Math.pow(deltaCoordinates.x,2) + Math.pow(deltaCoordinates.y,2)));
+
+        double desiredMovementStep;
+        if (vectorLenght < this.range / 2){
+            deltaCoordinates.x *= -1;
+            deltaCoordinates.y *= -1;
+
+            desiredMovementStep = Coordinates.distanceFrom00(deltaCoordinates);
+        }
+        else if (vectorLenght < this.range) {// We don't move if we are already in range
+            return;
+        }
+        else{
+            //We want so move only as far as to be in range
+            desiredMovementStep = vectorLenght - this.range;
+        }
+
+        // but we need to limit this to maxStepDistance
+        if (desiredMovementStep > this.maxStepDistance){
+            desiredMovementStep = this.maxStepDistance;
+        }
+
+        //We will divide the deltaCordinatex.x and .y by this number to lower the step size
+        double mathConst = vectorLenght / desiredMovementStep;
+        deltaCoordinates.x /= mathConst;
+        deltaCoordinates.y /= mathConst;
+
+        //Then we update the declaredNextCoordinates
+        this.declaredNextCoordinates.x = this.coordinates.x + deltaCoordinates.x;
+        this.declaredNextCoordinates.y = this.coordinates.y + deltaCoordinates.y;
+
+        checkBoundries();
     }
 }

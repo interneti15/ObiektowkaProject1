@@ -45,7 +45,7 @@ abstract class Unit extends SimulationObject
         }
 
         //We want so move only as far as to be in range
-        double desiredMovementStep = vectorLenght - this.range;
+        double desiredMovementStep = vectorLenght - this.range + 2;
 
         // but we need to limit this to maxStepDistance
         if (desiredMovementStep > this.maxStepDistance){
