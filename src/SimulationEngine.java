@@ -6,7 +6,7 @@ public class SimulationEngine {
     private static int tickCount = 0;
     public static ArrayList<SimulationObject> objectsToAdd = new ArrayList<SimulationObject>();
     //The two static fields below will represent the boundaries of the simulation
-    public final static Coordinates maxPositive = new Coordinates(950,950);
+    public final static Coordinates maxPositive = new Coordinates(950,800);
     public final static Coordinates maxNegative = new Coordinates(0,0);
 
 

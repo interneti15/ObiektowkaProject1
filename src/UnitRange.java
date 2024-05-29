@@ -44,6 +44,7 @@ abstract class UnitRange extends Unit{
         }
     }
 
+    @Override
     public void walkTickDeclareNext() {
 
         if (!canMove){
