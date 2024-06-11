@@ -15,10 +15,10 @@ public class Window extends JFrame {
         BattlePanel battlePanel = new BattlePanel(engine);
         add(battlePanel);
 
-        ButtonPanel buttonPanel = new ButtonPanel();
+        ButtonPanel buttonPanel = new ButtonPanel(engine);
         add(buttonPanel);
 
-        StatsPanel statsPanel = new StatsPanel();
+        StatsPanel statsPanel = new StatsPanel(engine);
         add(statsPanel);
 
         SimulationTime simulationTime = new SimulationTime();

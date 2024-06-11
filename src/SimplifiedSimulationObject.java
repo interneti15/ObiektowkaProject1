@@ -13,6 +13,7 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     private int lastDamageTaken= -(Integer.MAX_VALUE)/2;
     private int lastAttack = -(Integer.MAX_VALUE)/2;
 
+
     private Coordinates sprite;
 
     SimplifiedSimulationObject(SimulationObject object){
