@@ -5,6 +5,7 @@ public class SimulationEngine {
     public static ArrayList<SimplifiedSimulationObject> simpleSimulationObjectList = new ArrayList<SimplifiedSimulationObject>();
     private static int tickCount = 0;
     public static ArrayList<SimulationObject> objectsToAdd = new ArrayList<SimulationObject>();
+    public static ArrayList<ArrayList<SimplifiedSimulationObject>> souvenirPattern = new ArrayList<>();
     //The two static fields below will represent the boundaries of the simulation
     public final static Coordinates maxPositive = new Coordinates(950,500);
     public final static Coordinates maxNegative = new Coordinates(0,0);
@@ -20,6 +21,8 @@ public class SimulationEngine {
 
     public void tick() {//1 game tick consist of updateing list with coords of objects, then we to walk tick designed for changing of coords, then attack tick for atacking and after tick for any other things
         refreshSimpleList(); // Refreshing this whole list with object coordinates and basic info, this will be later used to count damge dealt between units
+
+        addToSouvenirPatternList();
 
         for (SimulationObject object : this.objectsToTick) {
             object.walkTickDeclareNext();
@@ -166,6 +169,16 @@ public class SimulationEngine {
 
             obj.declaredNextCoordinates.x += pushVector.x;
             obj.declaredNextCoordinates.y += pushVector.y;
+        }
+    }
+    private void addToSouvenirPatternList(){
+        if(souvenirPattern.size() == 200){
+            souvenirPattern.remove(0);
+            souvenirPattern.add(simpleSimulationObjectList); // lista maxuje sie na 200 potem usuwa ostatni zapis
+            System.out.println("usuwam pierwszy element!");
+        }
+        else{
+            souvenirPattern.add(simpleSimulationObjectList);
         }
     }
 
