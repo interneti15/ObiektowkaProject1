@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -6,16 +7,27 @@ public class Window extends JFrame {
     public Window(){
         SimulationEngine engine = new SimulationEngine();
         setTitle("Battle Simulation");
-        setSize(1000,1000);
+        setSize(1000,735);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLayout(null);
 
         BattlePanel battlePanel = new BattlePanel(engine);
         add(battlePanel);
 
+        ButtonPanel buttonPanel = new ButtonPanel();
+        add(buttonPanel);
+
+        StatsPanel statsPanel = new StatsPanel();
+        add(statsPanel);
+
+        SimulationTime simulationTime = new SimulationTime();
+        add(simulationTime);
+
+
         Timer timer = new Timer(10, e -> {
-           engine.tick();
-           battlePanel.drawSimulation();
+            engine.tick();
+            battlePanel.drawSimulation();
             ArrayList<SimulationObject> lista = engine.DEBUG_getObjectsList();
             System.out.printf("TickNow: %d \n",SimulationEngine.getTickCount());
             for (SimulationObject obj: lista){

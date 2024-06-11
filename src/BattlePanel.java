@@ -7,11 +7,13 @@ public class BattlePanel extends JPanel {
     public BattlePanel(SimulationEngine engine){
         this.engine = engine;
         //tutaj dodajemy jednostki na razie
+        setBounds(0,0,1000, 550);
+
 
         Knight knight = new Knight(new Coordinates(100,100), Color.green);
         engine.addNewSimulationObject(knight);
-        Knight knight2 = new Knight(new Coordinates(100,100), Color.green);
-        //engine.addNewSimulationObject(knight2);
+        Knight knight2 = new Knight(new Coordinates(200,500), Color.blue);
+        engine.addNewSimulationObject(knight2);
         Knight knight3 = new Knight(new Coordinates(100,100), Color.green);
         //engine.addNewSimulationObject(knight3);
 
