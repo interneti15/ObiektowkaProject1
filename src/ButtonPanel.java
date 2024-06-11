@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class ButtonPanel extends JPanel{
+    SimulationEngine engine;
+    Boolean startSimulation;
     JButton button1;
     JButton button2;
     JButton button3;
@@ -10,9 +12,12 @@ public class ButtonPanel extends JPanel{
     JButton button5;
     JButton button6;
     public ButtonPanel(SimulationEngine engine){
+        this.engine = engine;
+        setStartSimulation(false);
         setBackground(Color.LIGHT_GRAY);
         setBounds(0,550,775,150);
         setLayout(null);
+
 
         button1 = new JButton();
         button1.setText("<-");
@@ -24,16 +29,16 @@ public class ButtonPanel extends JPanel{
 
         button2 = new JButton();
         button2.setText("Stop");
-        button1.addActionListener(e -> {
-
+        button2.addActionListener(e -> {
+            setStartSimulation(false);
         });
         button2.setBounds(150,25, 100,100);
         add(button2);
 
         button3 = new JButton();
         button3.setText("Start");
-        button1.addActionListener(e -> {
-
+        button3.addActionListener(e -> {
+            setStartSimulation(true);
         });
         button3.setBounds(275,25, 100,100);
         add(button3);
@@ -62,7 +67,11 @@ public class ButtonPanel extends JPanel{
         button6.setBounds(650,25, 100,100);
         add(button6);
 
-
-
     }
+    public void setStartSimulation(Boolean x){
+        startSimulation = x;
+    }
+//    public Boolean showStartSimulation(){
+//        return startSimulation;
+//    }
 }
