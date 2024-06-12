@@ -17,7 +17,7 @@ public class Window extends JFrame {
         BattlePanel battlePanel = new BattlePanel(engine);
         add(battlePanel);
 
-        ButtonPanel buttonPanel = new ButtonPanel(engine);
+        ButtonPanel buttonPanel = new ButtonPanel(engine, battlePanel);
         add(buttonPanel);
 
         StatsPanel statsPanel = new StatsPanel(engine);
@@ -46,4 +46,5 @@ public class Window extends JFrame {
 
 
     }
+
 }

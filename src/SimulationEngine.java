@@ -5,7 +5,7 @@ public class SimulationEngine {
     public static ArrayList<SimplifiedSimulationObject> simpleSimulationObjectList = new ArrayList<SimplifiedSimulationObject>();
     private static int tickCount = 0;
     public static ArrayList<SimulationObject> objectsToAdd = new ArrayList<SimulationObject>();
-    public static ArrayList<ArrayList<SimplifiedSimulationObject>> souvenirPattern = new ArrayList<>();
+    public static ArrayList<SouvenirHandler> souvenirPattern = new ArrayList<>();
     //The two static fields below will represent the boundaries of the simulation
     public final static Coordinates maxPositive = new Coordinates(950,500);
     public final static Coordinates maxNegative = new Coordinates(0,0);
@@ -22,7 +22,18 @@ public class SimulationEngine {
     public void tick() {//1 game tick consist of updateing list with coords of objects, then we to walk tick designed for changing of coords, then attack tick for atacking and after tick for any other things
         refreshSimpleList(); // Refreshing this whole list with object coordinates and basic info, this will be later used to count damge dealt between units
 
-        addToSouvenirPatternList();
+        try {
+            addToSouvenirPatternList();
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        //SouvenirHandler.saveToFile(SimulationEngine.souvenirPattern);
+//        if (SimulationEngine.getTickCount() > 20){
+//            this.loadSouvenir(1);
+//            refreshSimpleList();
+//            return;
+//        }
 
         for (SimulationObject object : this.objectsToTick) {
             object.walkTickDeclareNext();
@@ -90,7 +101,7 @@ public class SimulationEngine {
             }
         }
     }
-    private void refreshSimpleList(){
+    public void refreshSimpleList(){
         simpleSimulationObjectList = new ArrayList<SimplifiedSimulationObject>();
         for (SimulationObject object : objectsToTick) {
             simpleSimulationObjectList.add(new SimplifiedSimulationObject(object));
@@ -171,15 +182,33 @@ public class SimulationEngine {
             obj.declaredNextCoordinates.y += pushVector.y;
         }
     }
-    private void addToSouvenirPatternList(){
+    private void addToSouvenirPatternList() throws CloneNotSupportedException {
         if(souvenirPattern.size() == 200){
             souvenirPattern.remove(0);
-            souvenirPattern.add(simpleSimulationObjectList); // lista maxuje sie na 200 potem usuwa ostatni zapis
+            // lista maxuje sie na 200 potem usuwa ostatni zapis
             System.out.println("usuwam pierwszy element!");
         }
-        else{
-            souvenirPattern.add(simpleSimulationObjectList);
+
+        ArrayList<SimulationObject> tempList = new ArrayList<>();
+        for (SimulationObject i : this.objectsToTick){
+                tempList.add(i.copy());
         }
+
+        souvenirPattern.add(new SouvenirHandler((ArrayList<SimulationObject>) tempList.clone(), SimulationEngine.getTickCount()));
+
     }
 
+    public void loadSouvenirFromFile(int a){
+        SouvenirHandler.loadDataFromFile(this, a);
+    }
+    public void loadSouvenirHelper(SouvenirHandler loadedTick, ArrayList<SouvenirHandler> fullTickHistory){
+        ArrayList<SimulationObject> tempList = new ArrayList<>();
+        for (SimulationObject i : loadedTick.objectListSnapshot){
+            tempList.add(i.copy());
+        }
+        this.objectsToTick = (ArrayList<SimulationObject>)tempList.clone();
+        SimulationEngine.tickCount = loadedTick.tickNow;
+        SimulationEngine.souvenirPattern.clear();
+        SimulationEngine.souvenirPattern = fullTickHistory;
+    }
 }

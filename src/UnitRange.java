@@ -18,7 +18,7 @@ abstract class UnitRange extends Unit{
         if (SimulationEngine.getTickCount() < this.lastAttack + this.tickPerAttack){
             return;
         }
-
+        
         //Finding the closest enemy and returning if none were found
         int closestEnemyIndex = findClosestEnemyIndex();
         if (closestEnemyIndex == -1){
@@ -92,5 +92,17 @@ abstract class UnitRange extends Unit{
         this.declaredNextCoordinates.y = this.coordinates.y + deltaCoordinates.y;
 
         checkBoundries();
+    }
+@Override
+    public UnitRange copy() {
+
+        UnitRange copiedUnit = (UnitRange) super.copy();
+        copiedUnit.coordinates = new Coordinates(this.coordinates.x, this.coordinates.y);
+        copiedUnit.health = this.health;
+        copiedUnit.damage = this.damage;
+        copiedUnit.projectile = this.projectile;
+        // Copy other fields as needed
+        return copiedUnit;
+
     }
 }

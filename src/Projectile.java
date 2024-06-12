@@ -59,4 +59,14 @@ abstract class Projectile extends Unit{// unit that dies when atacks or when arr
         }
     }
 
+    @Override
+    public Projectile copy() {
+
+        Projectile copiedUnit = (Projectile) super.copy();
+        copiedUnit.coordinates = new Coordinates(this.coordinates.x, this.coordinates.y);
+        copiedUnit.damage = this.damage;
+        return copiedUnit;
+
+    }
+
 }

@@ -1,6 +1,5 @@
-import java.awt.geom.Ellipse2D;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.awt.*;
 
 enum SimulationObjectType{//Used for object identification
     SIMULATION_OBJECT,
@@ -12,7 +11,7 @@ enum SimulationObjectType{//Used for object identification
     ARROW,
     KNIGHT
 }
-abstract class SimulationObject {
+abstract class SimulationObject implements Serializable,Cloneable{
     protected Coordinates coordinates;
     protected Coordinates declaredNextCoordinates;// This will be used to give every unit the same opportunity to move
     protected int ID;
@@ -40,6 +39,21 @@ abstract class SimulationObject {
     }
     public double getSizeOfSprite(){
         return (this.sprite.x + this.sprite.y)/2;
+    }
+
+    // Hard copy method for SimulationObject
+    public SimulationObject copy() {
+        try {
+            SimulationObject copiedObject = (SimulationObject) super.clone();
+            copiedObject.coordinates = new Coordinates(this.coordinates.x, this.coordinates.y);
+            copiedObject.declaredNextCoordinates = new Coordinates(this.declaredNextCoordinates.x, this.declaredNextCoordinates.y);
+            copiedObject.sprite = new Coordinates(this.sprite.x, this.sprite.y);
+            copiedObject.types = new ArrayList<>(this.types);
+            return copiedObject;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

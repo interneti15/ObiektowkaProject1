@@ -11,7 +11,7 @@ public class ButtonPanel extends JPanel{
     JButton button4;
     JButton button5;
     JButton button6;
-    public ButtonPanel(SimulationEngine engine){
+    public ButtonPanel(SimulationEngine engine, BattlePanel battlePanel){
         this.engine = engine;
         setStartSimulation(false);
         setBackground(Color.LIGHT_GRAY);
@@ -22,7 +22,12 @@ public class ButtonPanel extends JPanel{
         button1 = new JButton();
         button1.setText("<-");
         button1.addActionListener(e -> {
-
+            setStartSimulation(false);
+            if (SimulationEngine.getTickCount() > 1){
+                SouvenirHandler.loadDataFromMemory(this.engine,1);
+                this.engine.refreshSimpleList();
+                battlePanel.drawSimulation();
+            }
         });
         button1.setBounds(25,25, 100,100);
         add(button1);
@@ -69,7 +74,7 @@ public class ButtonPanel extends JPanel{
 
     }
     public void setStartSimulation(Boolean x){
-        startSimulation = x;
+        this.startSimulation = x;
     }
 //    public Boolean showStartSimulation(){
 //        return startSimulation;

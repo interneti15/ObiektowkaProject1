@@ -25,4 +25,13 @@ abstract class UnitMelee extends Unit{
         }
 
     }
+@Override
+    public UnitMelee copy() {
+
+        UnitMelee copiedUnit = (UnitMelee) super.copy();
+        copiedUnit.coordinates = new Coordinates(this.coordinates.x, this.coordinates.y);
+        copiedUnit.damage = this.damage;
+        return copiedUnit;
+
+    }
 }

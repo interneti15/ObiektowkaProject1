@@ -15,4 +15,22 @@ public class Arrow extends Projectile{
 
         this.sprite = new Coordinates(10,10);
     }
+
+    @Override
+    public Arrow copy() {
+        Arrow copiedArrow = (Arrow) super.copy(); // Call superclass copy() method
+        // Copy additional fields specific to Arrow
+        copiedArrow.destination = this.destination;
+        copiedArrow.coordinates = new Coordinates(this.coordinates.x, this.coordinates.y);
+
+        copiedArrow.range = this.range;
+        copiedArrow.damage = this.damage;
+
+        copiedArrow.maxStepDistance = this.maxStepDistance;
+        copiedArrow.team = this.team;
+
+        copiedArrow.sprite = new Coordinates(this.sprite.x  ,this.sprite.y);
+        // Copy other fields as needed
+        return copiedArrow;
+    }
 }

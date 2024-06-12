@@ -18,7 +18,16 @@ public class Knight extends UnitMelee{
         this.sprite = new Coordinates(50,50);
     }
 
-    public void test(){
-        System.out.println(1);
+    @Override
+    public Knight copy() {
+        Knight copiedKnight = (Knight) super.copy();
+        copiedKnight.health = this.health;
+        copiedKnight.range = this.range;
+        copiedKnight.tickPerAttack = this.tickPerAttack;
+        copiedKnight.maxStepDistance = this.maxStepDistance;
+        copiedKnight.sprite = new Coordinates(this.sprite.x, this.sprite.y);
+
+        return copiedKnight;
     }
+   
 }

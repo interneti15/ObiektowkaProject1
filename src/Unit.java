@@ -116,4 +116,22 @@ abstract class Unit extends SimulationObject
     static boolean isCloseEnoughForAttack(double distance, double range){//This will be used to check if isCloseEnoughForAttack
         return distance <= range + 0.01;
     }
+@Override
+    public Unit copy() {
+
+        Unit copiedUnit = (Unit) super.copy();
+        copiedUnit.coordinates = new Coordinates(this.coordinates.x, this.coordinates.y);
+        copiedUnit.health = this.health;
+        copiedUnit.range = this.range;
+        copiedUnit.maxStepDistance = this.maxStepDistance;
+        copiedUnit.tickPerAttack = this.tickPerAttack;
+        copiedUnit.team = this.team;
+        copiedUnit.canMove = this.canMove;
+        copiedUnit.isImmortal = this.isImmortal;
+        copiedUnit.lastAttack = this.lastAttack;
+        copiedUnit.lastDamageTaken = this.lastDamageTaken;
+        // Copy other fields as needed
+        return copiedUnit;
+
+    }
 }
