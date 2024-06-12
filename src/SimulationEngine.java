@@ -198,17 +198,16 @@ public class SimulationEngine {
 
     }
 
-    public void loadSouvenirFromFile(int a){
-        SouvenirHandler.loadDataFromFile(this, a);
-    }
     public void loadSouvenirHelper(SouvenirHandler loadedTick, ArrayList<SouvenirHandler> fullTickHistory){
         ArrayList<SimulationObject> tempList = new ArrayList<>();
         for (SimulationObject i : loadedTick.objectListSnapshot){
             tempList.add(i.copy());
         }
+        this.objectsToTick.clear();
         this.objectsToTick = (ArrayList<SimulationObject>)tempList.clone();
         SimulationEngine.tickCount = loadedTick.tickNow;
         SimulationEngine.souvenirPattern.clear();
         SimulationEngine.souvenirPattern = fullTickHistory;
+        this.refreshSimpleList();
     }
 }

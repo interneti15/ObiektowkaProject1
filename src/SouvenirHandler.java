@@ -17,21 +17,24 @@ public class SouvenirHandler implements Serializable {
         this.objectListSnapshot = (ArrayList<SimulationObject>) tempList.clone();
         this.tickNow = tickNow;
     }
-    static void saveToFile(ArrayList<SouvenirHandler> tickHistory){
+    static void saveToFile(){
+        File fileToDelete = new File(fileName);
+        boolean isDeleted = fileToDelete.delete();
 
+        ArrayList<SouvenirHandler> copiedList = new ArrayList<>();
+        for(int i = 0; i < SimulationEngine.souvenirPattern.size(); i++) {
+
+            copiedList.add(SimulationEngine.souvenirPattern.get(i).copy());
+        }
         try (FileOutputStream fileOut = new FileOutputStream(fileName);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-            out.writeObject(tickHistory);
+            out.writeObject(copiedList);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    static void loadDataFromFile(SimulationEngine engine, int a){
-
-        if (a <= 0){
-            return;
-        }
+    static void loadDataFromFile(SimulationEngine engine){
         ArrayList<SouvenirHandler> tickHistory = null;
 
         try (FileInputStream fileIn = new FileInputStream(fileName);
@@ -42,8 +45,13 @@ public class SouvenirHandler implements Serializable {
             return;
         }
 
-        System.out.println(1);
-        engine.loadSouvenirHelper(tickHistory.get(tickHistory.size() - a), tickHistory);
+        ArrayList<SouvenirHandler> copiedList = new ArrayList<>();
+        for(int i = 0; i < tickHistory.size(); i++) {
+
+            copiedList.add(tickHistory.get(i).copy());
+        }
+
+        engine.loadSouvenirHelper(copiedList.getLast(), copiedList);
 
     }
 

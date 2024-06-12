@@ -25,7 +25,6 @@ public class ButtonPanel extends JPanel{
             setStartSimulation(false);
             if (SimulationEngine.getTickCount() > 1){
                 SouvenirHandler.loadDataFromMemory(this.engine,1);
-                this.engine.refreshSimpleList();
                 battlePanel.drawSimulation();
             }
         });
@@ -58,7 +57,10 @@ public class ButtonPanel extends JPanel{
 
         button5 = new JButton();
         button5.setText("Load-file");
-        button1.addActionListener(e -> {
+        button5.addActionListener(e -> {
+            this.setStartSimulation(false);
+            SouvenirHandler.loadDataFromFile(this.engine);
+            battlePanel.drawSimulation();
 
         });
         button5.setBounds(525,25, 100,100);
@@ -66,8 +68,8 @@ public class ButtonPanel extends JPanel{
 
         button6 = new JButton();
         button6.setText("Save-file");
-        button1.addActionListener(e -> {
-
+        button6.addActionListener(e -> {
+            SouvenirHandler.saveToFile();
         });
         button6.setBounds(650,25, 100,100);
         add(button6);
