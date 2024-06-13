@@ -10,6 +10,8 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     private int dmgTaken = 0; // We will use this to count damage that given object has taken
     private Color team;
 
+    private double health = 0;
+
     private int lastDamageTaken= -(Integer.MAX_VALUE)/2;
     private int lastAttack = -(Integer.MAX_VALUE)/2;
 
@@ -22,6 +24,7 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
         this.types = object.types;
         this.sprite = object.sprite;
 
+
         if (object.isThisType(SimulationObjectType.PROJECTILE)){
             this.team = Color.gray;
         }
@@ -29,6 +32,7 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
             this.team = ((Unit)object).team;
             this.lastAttack = ((Unit)object).lastAttack;
             this.lastDamageTaken = ((Unit)object).lastDamageTaken;
+            this.health = ((Unit)object).health;
         }
         else{
             this.team = Color.gray;
@@ -83,6 +87,9 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     }
     public void setDmgTaken(int dmgTaken) {
         this.dmgTaken = dmgTaken;
+    }
+    public double getHealth(){
+        return this.health;
     }
 }
 

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Window extends JFrame {
     public Window(){
@@ -36,20 +37,20 @@ public class Window extends JFrame {
         ArrayList<Double> healthTable = new ArrayList<>();
         ArrayList<Integer> unitCountTable = new ArrayList<>();
 
-        ArrayList<SimulationObject> objects = engine.DEBUG_getObjectsList();
+        AtomicReference<ArrayList<SimplifiedSimulationObject>> objects = new AtomicReference<>(SimulationEngine.simpleSimulationObjectList);
 
-        teamTable.add(0,((Unit)objects.get(0)).team);
+        teamTable.add(0,(objects.get().get(0)).getTeam());
 
         //Creating a table of teams
-        for(SimulationObject object : objects){
+        for(SimplifiedSimulationObject object : objects.get()){
             boolean isColorAlreadyInTable = false;
             for(int i = 0; i < teamTable.size(); i++){
-                if(((Unit)object).team.equals(teamTable.get(i))) {
+                if((object).getTeam().equals(teamTable.get(i))) {
                     isColorAlreadyInTable = true;
                     break;
                 }
             }
-            if (isColorAlreadyInTable == false) teamTable.add(((Unit) object).team);
+            if (isColorAlreadyInTable == false) teamTable.add((object).getTeam());
         }
         int labelBoundY = 0;
 
@@ -71,20 +72,22 @@ public class Window extends JFrame {
 
 
         Timer timer = new Timer(10, e -> {
+            objects.set(SimulationEngine.simpleSimulationObjectList);
             if(buttonPanel.startSimulation){
                 engine.tick();
                 battlePanel.drawSimulation();
-                ArrayList<SimulationObject> lista = engine.DEBUG_getObjectsList();
+                //ArrayList<SimulationObject> lista = engine.DEBUG_getObjectsList();
+                ArrayList<SimplifiedSimulationObject> lista = SimulationEngine.simpleSimulationObjectList;
 
                 for(int i = 0; i < teamTable.size(); i++){
                     healthTable.set(i,0.0);
                     unitCountTable.set(i,0);
                 }
 
-                for(SimulationObject object : objects){
+                for(SimplifiedSimulationObject object : objects.get()){
                     for(int i = 0; i < teamTable.size(); i++){
-                        if(((Unit)object).team.equals(teamTable.get(i)) && ((Unit)object).getClass() != Arrow.class){
-                            healthTable.set(i, healthTable.get(i) + ((Unit)object).health);
+                        if((object).getTeam().equals(teamTable.get(i)) && !(object.isThisType(SimulationObjectType.ARROW))){
+                            healthTable.set(i, healthTable.get(i) + (object).getHealth());
                             unitCountTable.set(i, unitCountTable.get(i) + 1);
                             break;
                         }
@@ -101,12 +104,13 @@ public class Window extends JFrame {
 
 
                 System.out.printf("TickNow: %d \n",SimulationEngine.getTickCount());
-                for (SimulationObject obj: lista){
-                    System.out.printf("ID: %d Type: %s X: %f, Y: %f, Health: %f LastAtack: %d LastDmg: %d\n", ((Unit)obj).ID, obj.getClass().getName(), ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health, ((Unit)obj).lastAttack, ((Unit)obj).lastDamageTaken);
+                for (SimplifiedSimulationObject obj: lista){
+                    break;
+                    //System.out.printf("ID: %d Type: %s X: %f, Y: %f, Health: %f LastAtack: %d LastDmg: %d\n", ((Unit)obj).ID, obj.getClass().getName(), ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health, ((Unit)obj).lastAttack, ((Unit)obj).lastDamageTaken);
                 }
 
 
-                engine.DEBUG_refreshSimpleList();
+                engine.refreshSimpleList();
                 System.out.println(SimulationEngine.simpleSimulationObjectList.size());
             }
         });

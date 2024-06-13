@@ -210,4 +210,8 @@ public class SimulationEngine {
         SimulationEngine.souvenirPattern = fullTickHistory;
         this.refreshSimpleList();
     }
+
+    public void randomPlacement(){
+
+    }
 }
