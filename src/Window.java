@@ -9,7 +9,7 @@ public class Window extends JFrame {
 
         SimulationEngine engine = new SimulationEngine();
         setTitle("Battle Simulation");
-        setSize(1000,735);
+        setSize(1014,735);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -26,9 +26,7 @@ public class Window extends JFrame {
         SimulationTime simulationTime = new SimulationTime();
         add(simulationTime);
 
-
         engine.tick();
-
 
         battlePanel.drawSimulation();
 
@@ -62,7 +60,7 @@ public class Window extends JFrame {
             statsPanel.statistics.get(i).setForeground(teamTable.get(i));
             statsPanel.statistics.get(i).setBounds(10,labelBoundY,200,40);
             statsPanel.add(statsPanel.statistics.get(i));
-            labelBoundY += 20;
+            labelBoundY += 18;
         }
 
 
@@ -98,7 +96,7 @@ public class Window extends JFrame {
                 System.out.println(unitCountTable);
 
                 for(int i = 0; i < statsPanel.statistics.size(); i++){
-                    statsPanel.statistics.get(i).setText("Team health: " + healthTable.get(i) + "Units: " + unitCountTable.get(i));
+                    statsPanel.statistics.get(i).setText("Team health: " + healthTable.get(i) + "   Units: " + unitCountTable.get(i));
                 }
 
 
