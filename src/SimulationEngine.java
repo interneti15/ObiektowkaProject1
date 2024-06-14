@@ -20,7 +20,7 @@ public class SimulationEngine {
     }
 
     public void tick() {//1 game tick consist of updateing list with coords of objects, then we to walk tick designed for changing of coords, then attack tick for atacking and after tick for any other things
-        refreshSimpleList(); // Refreshing this whole list with object coordinates and basic info, this will be later used to count damge dealt between units
+        this.refreshSimpleList(); // Refreshing this whole list with object coordinates and basic info, this will be later used to count damge dealt between units
 
         try {
             addToSouvenirPatternList();
@@ -65,6 +65,7 @@ public class SimulationEngine {
     }
 
     //DEBUG methods will only be used for debugging
+    //Do not use!!!
     public ArrayList<SimulationObject> DEBUG_getObjectsList(){
         return this.objectsToTick;
     }
@@ -212,6 +213,27 @@ public class SimulationEngine {
     }
 
     public void randomPlacement(){
+        //this.tick();
 
+        this.refreshSimpleList();
+
+        try {
+            this.addToSouvenirPatternList();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (SimulationObject obj : this.objectsToTick){
+            if (obj.isThisType(SimulationObjectType.ARROW)){
+                continue;
+            }
+            obj.coordinates.x = SimulationEngine.maxPositive.x * Math.random();
+            obj.coordinates.y = SimulationEngine.maxPositive.y * Math.random();
+        }
+
+        SimulationEngine.tickCount++;
+
+        this.refreshSimpleList();
     }
 }

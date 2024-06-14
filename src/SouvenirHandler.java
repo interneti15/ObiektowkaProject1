@@ -56,12 +56,11 @@ public class SouvenirHandler implements Serializable {
     }
 
     static void loadDataFromMemory(SimulationEngine engine, int a){
-        if (a <= 0){
+        if (a <= 0 || SimulationEngine.souvenirPattern.isEmpty()){
             return;
         }
         ArrayList<SouvenirHandler> copiedList = new ArrayList<>();
         for(int i = 0; i < SimulationEngine.souvenirPattern.size() && i < SimulationEngine.souvenirPattern.size() - a; i++) {
-
             copiedList.add(SimulationEngine.souvenirPattern.get(i).copy());
         }
         engine.loadSouvenirHelper(SimulationEngine.souvenirPattern.get(SimulationEngine.souvenirPattern.size() - a).copy(), copiedList);

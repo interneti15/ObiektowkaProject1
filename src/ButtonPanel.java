@@ -49,8 +49,9 @@ public class ButtonPanel extends JPanel{
 
         button4 = new JButton();
         button4.setText("Random");
-        button1.addActionListener(e -> {
-
+        button4.addActionListener(e -> {
+            engine.randomPlacement();
+            battlePanel.drawSimulation();
         });
         button4.setBounds(400,25, 100,100);
         add(button4);
