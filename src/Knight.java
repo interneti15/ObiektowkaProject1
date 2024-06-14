@@ -29,5 +29,5 @@ public class Knight extends UnitMelee{
 
         return copiedKnight;
     }
-   
+
 }

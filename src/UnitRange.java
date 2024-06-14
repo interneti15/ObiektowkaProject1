@@ -18,7 +18,7 @@ abstract class UnitRange extends Unit{
         if (SimulationEngine.getTickCount() < this.lastAttack + this.tickPerAttack){
             return;
         }
-        
+
         //Finding the closest enemy and returning if none were found
         int closestEnemyIndex = findClosestEnemyIndex();
         if (closestEnemyIndex == -1){
@@ -30,7 +30,7 @@ abstract class UnitRange extends Unit{
             return;
         }
 
-            //Spawning new Simulation Object Projectile
+        //Spawning new Simulation Object Projectile
         try {
             this.lastAttack = SimulationEngine.getTickCount();
             Constructor<? extends Projectile> constructor = projectile.getDeclaredConstructor(
@@ -93,7 +93,7 @@ abstract class UnitRange extends Unit{
 
         checkBoundries();
     }
-@Override
+    @Override
     public UnitRange copy() {
 
         UnitRange copiedUnit = (UnitRange) super.copy();

@@ -185,14 +185,14 @@ public class SimulationEngine {
     }
     private void addToSouvenirPatternList() throws CloneNotSupportedException {
         if(souvenirPattern.size() == 200){
-            souvenirPattern.remove(0);
+            souvenirPattern.removeFirst();
             // lista maxuje sie na 200 potem usuwa ostatni zapis
             System.out.println("usuwam pierwszy element!");
         }
 
         ArrayList<SimulationObject> tempList = new ArrayList<>();
         for (SimulationObject i : this.objectsToTick){
-                tempList.add(i.copy());
+            tempList.add(i.copy());
         }
 
         souvenirPattern.add(new SouvenirHandler((ArrayList<SimulationObject>) tempList.clone(), SimulationEngine.getTickCount()));
@@ -212,28 +212,65 @@ public class SimulationEngine {
         this.refreshSimpleList();
     }
 
-    public void randomPlacement(){
-        //this.tick();
-
-        this.refreshSimpleList();
-
-        try {
-            this.addToSouvenirPatternList();
-        }
-        catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
-
-        for (SimulationObject obj : this.objectsToTick){
-            if (obj.isThisType(SimulationObjectType.ARROW)){
+    //    public void randomPlacement(){
+//        //this.tick();
+//        ArrayList<SimulationObject> randomizedList = new ArrayList<>();
+//        this.refreshSimpleList();
+//
+//        try {
+//            this.addToSouvenirPatternList();
+//        }
+//        catch (CloneNotSupportedException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//
+//        for (SimulationObject obj : this.objectsToTick){
+//            if (obj.isThisType(SimulationObjectType.ARROW)){
+//                continue;
+//            }
+//            obj.coordinates.x = SimulationEngine.maxPositive.x * Math.random();
+//            randomizedList.add(obj);
+//            obj.coordinates.y = SimulationEngine.maxPositive.y * Math.random();
+//        }
+//    SimulationEngine.tickCount++;
+//
+//        this.refreshSimpleList();
+//}
+    public void randomPlacement() {
+        ArrayList<SimulationObject> randomizedList = new ArrayList<>();
+        for (SimulationObject obj : this.objectsToTick) {
+            if (obj.isThisType(SimulationObjectType.ARROW)) {
                 continue;
             }
-            obj.coordinates.x = SimulationEngine.maxPositive.x * Math.random();
-            obj.coordinates.y = SimulationEngine.maxPositive.y * Math.random();
-        }
 
+            boolean positionFound = false;
+            while (!positionFound) {
+                double newX = SimulationEngine.maxPositive.x * Math.random();
+                double newY = SimulationEngine.maxPositive.y * Math.random();
+
+                Coordinates newCoords = new Coordinates(newX, newY);
+
+                // overlap check
+                boolean isValid = true;
+                for (SimulationObject other : randomizedList) {
+                    if (Coordinates.distanceBetweenTwo(newCoords, other.coordinates) < 100) { // 100 is 2 times unit radius, so they don't overlap
+                        isValid = false;
+                        break;
+                    }
+                }
+
+                if (isValid) {
+                    obj.coordinates.x = newX;
+                    obj.coordinates.y = newY;
+                    randomizedList.add(obj);
+                    positionFound = true;
+                }
+            }
+        }
         SimulationEngine.tickCount++;
 
         this.refreshSimpleList();
     }
+
 }

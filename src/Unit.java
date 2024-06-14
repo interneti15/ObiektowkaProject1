@@ -116,7 +116,7 @@ abstract class Unit extends SimulationObject
     static boolean isCloseEnoughForAttack(double distance, double range){//This will be used to check if isCloseEnoughForAttack
         return distance <= range + 0.01;
     }
-@Override
+    @Override
     public Unit copy() {
 
         Unit copiedUnit = (Unit) super.copy();

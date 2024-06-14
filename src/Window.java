@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Window extends JFrame {
+
+    private JLabel timeLabel;
     public Window(){
-        Boolean startSimulation = false;
 
         SimulationEngine engine = new SimulationEngine();
         setTitle("Battle Simulation");
@@ -14,20 +15,25 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
+
+        SimulationTime simulationTime = new SimulationTime();
+        simulationTime.setLayout(new FlowLayout());
+        timeLabel = new JLabel("Time: 0.00");
+        timeLabel.setForeground(Color.WHITE);
+        simulationTime.add(timeLabel);
+        add(simulationTime);
+//        simulationTime.repaint(); // repaints the text every tick
+
         BattlePanel battlePanel = new BattlePanel(engine);
         add(battlePanel);
 
         ButtonPanel buttonPanel = new ButtonPanel(engine, battlePanel);
         add(buttonPanel);
 
-        StatsPanel statsPanel = new StatsPanel(engine);
+        StatsPanel statsPanel = new StatsPanel();
         add(statsPanel);
 
-        SimulationTime simulationTime = new SimulationTime();
-        add(simulationTime);
-
         engine.tick();
-
         battlePanel.drawSimulation();
 
         //Creating array lists to store data about team, summary team health and number of units in each team
@@ -48,7 +54,7 @@ public class Window extends JFrame {
                     break;
                 }
             }
-            if (isColorAlreadyInTable == false) teamTable.add((object).getTeam());
+            if (!isColorAlreadyInTable) teamTable.add((object).getTeam());
         }
         int labelBoundY = 0;
 
@@ -99,13 +105,18 @@ public class Window extends JFrame {
                     statsPanel.statistics.get(i).setText("Team health: " + healthTable.get(i) + "   Units: " + unitCountTable.get(i));
                 }
 
-
+                int tickCount = SimulationEngine.getTickCount();
+                int seconds = tickCount / 100;
+                int milliseconds = tickCount % 100;
+                String timeString = String.format("Time: %d.%02d", seconds, milliseconds);
+                timeLabel.setText(timeString);
+                simulationTime.repaint();
 
                 System.out.printf("TickNow: %d \n",SimulationEngine.getTickCount());
-                for (SimplifiedSimulationObject obj: lista){
-                    break;
-                    //System.out.printf("ID: %d Type: %s X: %f, Y: %f, Health: %f LastAtack: %d LastDmg: %d\n", ((Unit)obj).ID, obj.getClass().getName(), ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health, ((Unit)obj).lastAttack, ((Unit)obj).lastDamageTaken);
-                }
+//                for (SimplifiedSimulationObject obj: lista){
+//                    break;
+//                    System.out.printf("ID: %d Type: %s X: %f, Y: %f, Health: %f LastAtack: %d LastDmg: %d\n", ((Unit)obj).ID, obj.getClass().getName(), ((Unit)obj).coordinates.x, ((Unit)obj).coordinates.y, ((Unit)obj).health, ((Unit)obj).lastAttack, ((Unit)obj).lastDamageTaken);
+//                }
 
 
                 engine.refreshSimpleList();

@@ -1,59 +1,137 @@
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
-enum SimulationObjectType{//Used for object identification
-    SIMULATION_OBJECT,
-    UNIT,
-    UNIT_MELEE,
-    UNIT_RANGE,
-    PROJECTILE,
-    ARCHER,
-    ARROW,
-    KNIGHT
-}
-abstract class SimulationObject implements Serializable,Cloneable{
-    protected Coordinates coordinates;
-    protected Coordinates declaredNextCoordinates;// This will be used to give every unit the same opportunity to move
-    protected int ID;
-    private static int objectCount = 0;
-    protected ArrayList<SimulationObjectType> types = new ArrayList<>();//This will be used to indentify methods and fields of class
+abstract class Unit extends SimulationObject
+{
+    protected double health;//health
+    protected double range;//range
+    protected double maxStepDistance;//max distance able to move per tick
+    protected double tickPerAttack;//ticks between atack opportuniteis
+    protected Color team;//Team to which the unit belongs
+    protected boolean canMove = true;
+    protected boolean isImmortal = false;
+    protected int lastAttack = -(Integer.MAX_VALUE)/2; // At which tick an attack occured
+    protected int lastDamageTaken = -(Integer.MAX_VALUE)/2; // At which tick an unit has taken damage
 
-    SimulationObject(){
-        this.types.add(SimulationObjectType.SIMULATION_OBJECT);
-        this.ID = objectCount;
-        objectCount++;
+
+    public Unit(Coordinates coordinates) {
+        super();
+        this.types.add(SimulationObjectType.UNIT);
+
+        this.declaredNextCoordinates = coordinates;//This is important in case the object were to not move
     }
-    protected Coordinates sprite;
-    public abstract void walkTickDeclareNext();
-    public abstract void walkTick();
-    public abstract void attackTick();
-    public abstract void afterTick();
+    //protected String type;//more like name of the unit  archer,knight
 
-    public boolean isThisType(SimulationObjectType desiredType){
-        for(SimulationObjectType type : this.types){
-            if (type == desiredType){
-                return true;
+    @Override
+    public void walkTickDeclareNext() {
+
+        if (!canMove){
+            return;
+        }
+        //First we search for closest enemy, to be exact to its position in SimplifiedList
+        int closestEnemyIndex = findClosestEnemyIndex();
+
+        //if none were found we return as we will only move when there are enemies
+        if (closestEnemyIndex == -1){
+            return;
+        }
+
+        // We will treat the var below as a vector describing relation between this unit and the enemy
+        Coordinates deltaCoordinates = new Coordinates(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().x - this.coordinates.x, SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().y - this.coordinates.y);
+        double vectorLenght = Math.sqrt((Math.pow(deltaCoordinates.x,2) + Math.pow(deltaCoordinates.y,2)));
+
+        if (vectorLenght < this.range) {// We don't move if we are already in range
+            return;
+        }
+
+        //We want so move only as far as to be in range
+        double desiredMovementStep = vectorLenght - this.range + 1;
+
+        // but we need to limit this to maxStepDistance
+        if (desiredMovementStep > this.maxStepDistance){
+            desiredMovementStep = this.maxStepDistance;
+        }
+
+        //We will divide the deltaCordinatex.x and .y by this number to lower the step size
+        double mathConst = vectorLenght / desiredMovementStep;
+        deltaCoordinates.x /= mathConst;
+        deltaCoordinates.y /= mathConst;
+
+        //Then we update the declaredNextCoordinates
+        this.declaredNextCoordinates.x = this.coordinates.x + deltaCoordinates.x;
+        this.declaredNextCoordinates.y = this.coordinates.y + deltaCoordinates.y;
+
+        checkBoundries();
+    }
+    @Override
+    public void walkTick(){
+        if (!canMove){
+            return;
+        }
+        this.coordinates = this.declaredNextCoordinates;
+    }
+
+    @Override
+    public void afterTick() {
+
+    }
+
+    protected int findClosestEnemyIndex(){
+        double minimumDistanceFound = Double.MAX_VALUE;
+
+        int closestEnemyIndex = -1; //-1 will mean that no object was found
+
+        // We ignore objects that team is the same as this unit and system labaled objects, we only search for enemy units
+        for (int i = 0; i < SimulationEngine.simpleSimulationObjectList.size(); i++){
+            SimplifiedSimulationObject object = SimulationEngine.simpleSimulationObjectList.get(i);
+            if (object.getTeam() == this.team || object.getTeam() == Color.gray || object.getID() == this.ID){
+                continue;
+            }
+            double distanceInThisIteration = Coordinates.distanceBetweenTwo(this.coordinates, object.getCoordinates());
+            if(distanceInThisIteration < minimumDistanceFound){
+                minimumDistanceFound = distanceInThisIteration;
+                closestEnemyIndex = i;
             }
         }
-        return false;
-    }
-    public double getSizeOfSprite(){
-        return (this.sprite.x + this.sprite.y)/2;
+
+        return closestEnemyIndex;
     }
 
-    // Hard copy method for SimulationObject
-    public SimulationObject copy() {
-        try {
-            SimulationObject copiedObject = (SimulationObject) super.clone();
-            copiedObject.coordinates = new Coordinates(this.coordinates.x, this.coordinates.y);
-            copiedObject.declaredNextCoordinates = new Coordinates(this.declaredNextCoordinates.x, this.declaredNextCoordinates.y);
-            copiedObject.sprite = new Coordinates(this.sprite.x, this.sprite.y);
-            copiedObject.types = new ArrayList<>(this.types);
-            return copiedObject;
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
+    protected void checkBoundries(){
+        if (this.declaredNextCoordinates.x > SimulationEngine.maxPositive.x){
+            this.declaredNextCoordinates.x = SimulationEngine.maxPositive.x;
+        }
+        else if (this.declaredNextCoordinates.x < SimulationEngine.maxNegative.x){
+            this.declaredNextCoordinates.x = SimulationEngine.maxNegative.x;
+        }
+
+        if (this.declaredNextCoordinates.y > SimulationEngine.maxPositive.y){
+            this.declaredNextCoordinates.y = SimulationEngine.maxPositive.y;
+        }
+        else if (this.declaredNextCoordinates.y < SimulationEngine.maxNegative.y){
+            this.declaredNextCoordinates.y = SimulationEngine.maxNegative.y;
         }
     }
 
+    static boolean isCloseEnoughForAttack(double distance, double range){//This will be used to check if isCloseEnoughForAttack
+        return distance <= range + 0.01;
+    }
+    @Override
+    public Unit copy() {
+
+        Unit copiedUnit = (Unit) super.copy();
+        copiedUnit.coordinates = new Coordinates(this.coordinates.x, this.coordinates.y);
+        copiedUnit.health = this.health;
+        copiedUnit.range = this.range;
+        copiedUnit.maxStepDistance = this.maxStepDistance;
+        copiedUnit.tickPerAttack = this.tickPerAttack;
+        copiedUnit.team = this.team;
+        copiedUnit.canMove = this.canMove;
+        copiedUnit.isImmortal = this.isImmortal;
+        copiedUnit.lastAttack = this.lastAttack;
+        copiedUnit.lastDamageTaken = this.lastDamageTaken;
+        // Copy other fields as needed
+        return copiedUnit;
+
+    }
 }
