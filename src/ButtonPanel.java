@@ -40,6 +40,7 @@ public class ButtonPanel extends JPanel {
             button3.setBackground(Color.getHSBColor(0.6028f, 0.07f, 0.90f));
             button1.setEnabled(true);
             button4.setEnabled(true);
+            button5.setEnabled(true);
 //            button1.setBackground(Color.getHSBColor(0.6028f, 0.07f, 0.90f));
 //            button4.setBackground(Color.getHSBColor(0.6028f, 0.07f, 0.90f));
 
@@ -55,6 +56,7 @@ public class ButtonPanel extends JPanel {
             button3.setBackground(Color.getHSBColor(0.2972f, 0.52f, 1.0f));
             button1.setEnabled(false);
             button4.setEnabled(false);
+            button5.setEnabled(false);
 //            button1.setBackground(Color.GRAY);
 //            button4.setBackground(Color.GRAY);
         });
