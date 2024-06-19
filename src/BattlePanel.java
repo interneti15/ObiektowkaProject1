@@ -13,22 +13,14 @@ public class BattlePanel extends JPanel {
         setBounds(0,0,1000, 550);
 
 
-        Knight knight = new Knight(new Coordinates(100,100), Color.cyan);
+        Knight knight = new Knight(new Coordinates(10,10), Color.cyan);
+        //knight.canMove = false;
+        knight.isImmortal = true;
         engine.addNewSimulationObject(knight);
-        Knight knight2 = new Knight(new Coordinates(150,100), Color.black);
-        engine.addNewSimulationObject(knight2);
-        Knight knight3 = new Knight(new Coordinates(200,500), Color.pink);
-        engine.addNewSimulationObject(knight3);
-        Knight knight4 = new Knight(new Coordinates(150,150), Color.green);
-        engine.addNewSimulationObject(knight4);
 
-
-        Archer archer = new Archer(new Coordinates(600,600), Color.red);
-        archer.range *= 1;
-        engine.addNewSimulationObject(archer);
-        Archer archer1 = new Archer(new Coordinates(300,200), Color.red);
-        engine.addNewSimulationObject(archer1);
-
+        Witch witch = new Witch(new Coordinates(300,200), Color.orange);
+        //witch.canMove = false;
+        engine.addNewSimulationObject(witch);
     }
 
     @Override

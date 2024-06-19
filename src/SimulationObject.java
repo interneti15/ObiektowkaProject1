@@ -9,7 +9,9 @@ enum SimulationObjectType{//Used for object identification
     PROJECTILE,
     ARCHER,
     ARROW,
-    KNIGHT
+    KNIGHT,
+    SKELETON,
+    WITCH
 }
 abstract class SimulationObject implements Serializable,Cloneable{
     protected Coordinates coordinates;

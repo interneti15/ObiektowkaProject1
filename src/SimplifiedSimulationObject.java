@@ -91,6 +91,9 @@ public class SimplifiedSimulationObject //Simplified SimulationObject used for m
     public double getHealth(){
         return this.health;
     }
+    public Coordinates getSprite(){
+        return this.sprite;
+    }
 }
 
 

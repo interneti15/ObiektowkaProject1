@@ -12,6 +12,9 @@ abstract class UnitRange extends Unit{
     protected int damage;
     protected Class<? extends Projectile> projectile;
 
+    protected boolean isSummoner = false;
+    protected Class<? extends UnitMelee> summon;
+
     @Override
     public void attackTick(){
 
@@ -31,16 +34,51 @@ abstract class UnitRange extends Unit{
         }
 
         //Spawning new Simulation Object Projectile
-        try {
-            this.lastAttack = SimulationEngine.getTickCount();
-            Constructor<? extends Projectile> constructor = projectile.getDeclaredConstructor(
-                    Coordinates.class, Coordinates.class, Color.class
-            );
-            SimulationObject obj = constructor.newInstance(this.coordinates.copy(), SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().copy(), this.team);
-            SimulationEngine.objectsToAdd.add(obj);
+        if (!this.isSummoner) {
+            try {
+                this.lastAttack = SimulationEngine.getTickCount();
+                Constructor<? extends Projectile> constructor = projectile.getDeclaredConstructor(
+                        Coordinates.class, Coordinates.class, Color.class
+                );
+                SimulationObject obj = constructor.newInstance(this.coordinates.copy(), SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().copy(), this.team);
+                SimulationEngine.objectsToAdd.add(obj);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                System.out.println(e.toString());
+            }
         }
-        catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
-            System.out.println(e.toString());
+        else{
+            try {
+                if (Coordinates.distanceBetweenTwo(this.coordinates, SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates()) < Coordinates.distanceFrom00(this.sprite) + 10){
+                    return;
+                }
+
+
+                this.lastAttack = SimulationEngine.getTickCount();
+                Constructor<? extends UnitMelee> constructor = summon.getDeclaredConstructor(
+                        Coordinates.class, Color.class
+                );
+
+                Coordinates deltaCoordinates = new Coordinates(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().x - this.coordinates.x, SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().y - this.coordinates.y);
+                double vectorLenght = Math.sqrt((Math.pow(deltaCoordinates.x,2) + Math.pow(deltaCoordinates.y,2)));
+
+                SimulationObject obj = constructor.newInstance(new Coordinates(0,0), this.team);
+                //We want so move only as far as to be in range
+                double desiredMovementStep = Coordinates.distanceFrom00(this.sprite)/2 + Coordinates.distanceFrom00(obj.sprite)/2 + this.maxStepDistance/2;
+
+                //We will divide the deltaCordinatex.x and .y by this number to lower the step size
+                double mathConst = vectorLenght / desiredMovementStep;
+                deltaCoordinates.x /= mathConst;
+                deltaCoordinates.y /= mathConst;
+
+                obj.coordinates = new Coordinates(this.coordinates.x + deltaCoordinates.x,this.coordinates.y + deltaCoordinates.y);
+                SimulationEngine.objectsToAdd.add(obj.copy());
+                obj = constructor.newInstance(new Coordinates(this.coordinates.x + deltaCoordinates.x+1,this.coordinates.y + deltaCoordinates.y+1), this.team);
+                SimulationEngine.objectsToAdd.add(obj.copy());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                System.out.println(e.toString());
+            }
         }
     }
 
@@ -101,6 +139,8 @@ abstract class UnitRange extends Unit{
         copiedUnit.health = this.health;
         copiedUnit.damage = this.damage;
         copiedUnit.projectile = this.projectile;
+        copiedUnit.isSummoner = this.isSummoner;
+        copiedUnit.summon = this.summon;
         // Copy other fields as needed
         return copiedUnit;
 

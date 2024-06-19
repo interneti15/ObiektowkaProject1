@@ -8,7 +8,7 @@ public class SimulationEngine {
     public static ArrayList<SouvenirHandler> souvenirPattern = new ArrayList<>();
     //The two static fields below will represent the boundaries of the simulation
     public final static Coordinates maxPositive = new Coordinates(950,500);
-    public final static Coordinates maxNegative = new Coordinates(0,0);
+    public final static Coordinates maxNegative = new Coordinates(10,10);
 
 
     SimulationEngine(){
@@ -251,16 +251,7 @@ public class SimulationEngine {
 
                 Coordinates newCoords = new Coordinates(newX, newY);
 
-                // overlap check
-                boolean isValid = true;
-                for (SimulationObject other : randomizedList) {
-                    if (Coordinates.distanceBetweenTwo(newCoords, other.coordinates) < 100) { // 100 is 2 times unit radius, so they don't overlap
-                        isValid = false;
-                        break;
-                    }
-                }
-
-                if (isValid) {
+                if (true) {
                     obj.coordinates.x = newX;
                     obj.coordinates.y = newY;
                     randomizedList.add(obj);
@@ -270,7 +261,34 @@ public class SimulationEngine {
         }
         SimulationEngine.tickCount++;
 
+        int badcounter = 0;
+        while (badcounter > 10){
+            System.out.println(badcounter);
+            collisionCheckAndFix();
+            for (SimulationObject object : this.objectsToTick) {
+                object.walkTick();
+            }
+
+            badcounter = 0;
+            for (SimulationObject obj : this.objectsToTick){
+                for (SimulationObject obj2 : this.objectsToTick){
+                    if (obj.ID == obj2.ID){
+                        continue;
+                    }
+
+                    if (Coordinates.distanceBetweenTwo(obj.coordinates, obj2.coordinates) < Coordinates.distanceFrom00(obj.sprite)/2 + Coordinates.distanceFrom00(obj.sprite)/2){
+                        badcounter++;
+                    }
+
+
+                }
+            }
+            this.refreshSimpleList();
+
+        }
+
         this.refreshSimpleList();
+
     }
 
 }

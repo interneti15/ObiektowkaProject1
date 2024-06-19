@@ -17,7 +17,9 @@ abstract class UnitMelee extends Unit{
             return;
         }
 
-        if (isCloseEnoughForAttack(Coordinates.distanceBetweenTwo(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates(), this.coordinates) , this.range)){
+        double tempRange = this.range + Coordinates.distanceFrom00(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getSprite())/2;
+
+        if (isCloseEnoughForAttack(Coordinates.distanceBetweenTwo(SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates(), this.coordinates) , tempRange)){
 
             int dmgTaken = SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getDmgTaken();
             SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).setDmgTaken(dmgTaken + this.damage);
