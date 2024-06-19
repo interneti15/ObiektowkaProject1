@@ -36,7 +36,7 @@ abstract class UnitRange extends Unit{
             Constructor<? extends Projectile> constructor = projectile.getDeclaredConstructor(
                     Coordinates.class, Coordinates.class, Color.class
             );
-            SimulationObject obj = constructor.newInstance(new Coordinates(this.coordinates.x, this.coordinates.y), SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates(), this.team);
+            SimulationObject obj = constructor.newInstance(this.coordinates.copy(), SimulationEngine.simpleSimulationObjectList.get(closestEnemyIndex).getCoordinates().copy(), this.team);
             SimulationEngine.objectsToAdd.add(obj);
         }
         catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){

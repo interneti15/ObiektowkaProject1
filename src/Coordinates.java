@@ -18,4 +18,12 @@ public class Coordinates implements Serializable {
     public static double distanceFrom00(Coordinates c1){
         return Math.sqrt(Math.pow((c1.x),2)+Math.pow((c1.y),2));
     }
+
+    Coordinates copy(){
+        Coordinates toReturn = new Coordinates();
+        toReturn.x = this.x;
+        toReturn.y = this.y;
+
+        return toReturn;
+    }
 }
